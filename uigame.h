@@ -90,7 +90,7 @@ PAL_EquipItemMenu(
 );
     
 INT PALX_CountMenu(INT iMaxCount);
-    WORD PALX_NumberSelectBox2(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged, LPMENUITEM rgMenuItem, INT iMaxCount);
+INT PALX_NumberSelectBox(WORD wNumWord, INT iMaxCount);
     
 #ifdef __cplusplus
 }

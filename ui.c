@@ -20,6 +20,7 @@
 //
 
 #include "main.h"
+#include "parson.h"
 
 LPSPRITE      gpSpriteUI = NULL;
 
@@ -586,85 +587,6 @@ PAL_ReadMenu(
    return MENUITEM_VALUE_CANCELLED;
 }
 
-WORD PALX_NumberSelectBox(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged, LPMENUITEM rgMenuItem, INT iMaxCount)
-{
-    INT wCurrentCount = 0;
-    WORD wCurrentItem = 0;
-    const SDL_Rect  rect = {130, 70, 125, 50};
-    //
-    // Draw the count
-    //
-    // @@@ - change the xy position.
-    // these are the static content that require no real-time refresh.
-    // !!! - update = true
-    //PAL_DrawText(PAL_GetWord(ITEMMENU_LABEL_AMOUNT), rgMenuItem[0].pos, 0, FALSE, FALSE);
-    while (TRUE)
-    {
-        PAL_ClearKeyState();
-        
-        
-        // this is the dynamic content that needs to be refreshed.
-        //PAL_DrawNumber(wCurrentCount, 2, rgMenuItem[1].pos, kNumColorYellow, kNumAlignRight);
-        
-        PAL_ProcessEvent();
-        
-        if (g_InputState.dwKeyPress & kKeyUp)
-        {
-            //PAL_DrawNumber(wCurrentCount, 2, rgMenuItem[1].pos, kNumColorYellow, kNumAlignRight);
-            //PALX_ShowAmount()
-            VIDEO_UpdateScreen(&rect);
-            wCurrentCount ++ ;
-            if (wCurrentCount >= iMaxCount)
-            {
-                wCurrentCount = iMaxCount;
-            }
-            
-            if (lpfnCountBoxChanged != NULL)
-            {
-                (*lpfnCountBoxChanged)(wCurrentCount);
-            }
-        }
-        else if (g_InputState.dwKeyPress & kKeyDown)
-        {
-            PAL_DrawNumber(wCurrentCount, 2, rgMenuItem[1].pos, kNumColorYellow, kNumAlignRight);
-            VIDEO_UpdateScreen(&rect);
-            if (wCurrentCount > 0)
-            {
-                wCurrentCount --;
-            }
-            else
-            {
-                wCurrentItem = 0;
-            }
-            
-            if (lpfnCountBoxChanged != NULL)
-            {
-                (*lpfnCountBoxChanged)(wCurrentCount);
-            }
-        }
-        else if (g_InputState.dwKeyPress & kKeyMenu)
-        {
-            //
-            // User cancelled
-            //
-            break;
-        }
-        else if (g_InputState.dwKeyPress & kKeySearch)
-        {
-            //
-            // User pressed Enter
-            //
-            return wCurrentCount;
-        }
-        
-        //
-        // Use delay function to avoid high CPU usage.
-        //
-        SDL_Delay(50);
-    }
-    return MENUITEM_VALUE_CANCELLED;
-}
-
 VOID
 PAL_DrawNumber(
    UINT            iNum,
@@ -762,24 +684,17 @@ PAL_DrawNumber(
 
 #ifndef PAL_WIN95
 
-LPOBJECTDESC
-PAL_LoadObjectDesc(
-   LPCSTR         lpszFileName
-)
+
 /*++
-  Purpose:
-
-    Load the object description strings from file.
-
-  Parameters:
-
-    [IN]  lpszFileName - the filename to be loaded.
-
-  Return value:
-
-    Pointer to loaded data, in linked list form. NULL if unable to load.
-
---*/
+ Load the object description strings from file.
+ 
+ Parameters:
+ [IN]  lpszFileName - the filename to be loaded.
+ 
+ Return value:
+ Pointer to loaded data, in linked list form. NULL if unable to load.
+ --*/
+LPOBJECTDESC PAL_LoadObjectDesc(LPCSTR lpszFileName)
 {
    FILE                      *fp;
    PAL_LARGE char             buf[512];
@@ -822,10 +737,7 @@ PAL_LoadObjectDesc(
    return lpDesc;
 }
 
-VOID
-PAL_FreeObjectDesc(
-   LPOBJECTDESC   lpObjectDesc
-)
+VOID PAL_FreeObjectDesc(LPOBJECTDESC   lpObjectDesc)
 /*++
   Purpose:
 
@@ -887,5 +799,47 @@ PAL_GetObjectDesc(
 
    return NULL;
 }
+
+LPOBJECTDESC PALX_LoadObjectDescJSON(LPCSTR lpszFileName)
+{
+    JSON_Value * root_value;
+    JSON_Array * descriptions;
+    
+    root_value = json_parse_file(lpszFileName);
+    if (root_value == NULL) {
+        return NULL;
+    }
+    if (json_value_get_type(root_value) != JSONArray) {
+        return NULL;
+    }
+    
+    descriptions = json_value_get_array(root_value);
+    size_t count = json_array_get_count(descriptions);
+    
+    JSON_Object * description;
+
+    LPOBJECTDESC lpDesc = NULL, pNew = NULL;
+    
+    for (unsigned int k = 0; k < count; k++)
+    {
+        //
+        // Load the description data
+        //
+        description = json_array_get_object(descriptions, k);
+        pNew = UTIL_calloc(1, sizeof(OBJECTDESC));
+        
+        pNew->lpDesc = strdup(json_object_get_string(description, "desc"));
+        pNew->wObjectID = json_object_get_number(description, "objectId");
+        
+        pNew->next = lpDesc;
+        lpDesc = pNew;
+    }
+    
+    json_value_free(root_value);
+    
+    return lpDesc;
+}
+
+
 
 #endif

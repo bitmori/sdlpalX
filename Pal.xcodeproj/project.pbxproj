@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		002F3A3F09D088BA00EBEB88 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A3E09D088BA00EBEB88 /* main.c */; };
+		4A50CE8B1CA06B92009ECFC0 /* parson.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A50CE891CA06B92009ECFC0 /* parson.c */; };
 		7104FD6A0D772F6300A97E53 /* battle.c in Sources */ = {isa = PBXBuildFile; fileRef = 7104FD3A0D772F6300A97E53 /* battle.c */; };
 		7104FD6D0D772F6300A97E53 /* font.c in Sources */ = {isa = PBXBuildFile; fileRef = 7104FD3D0D772F6300A97E53 /* font.c */; };
 		7104FD710D772F6300A97E53 /* getopt.c in Sources */ = {isa = PBXBuildFile; fileRef = 7104FD410D772F6300A97E53 /* getopt.c */; };
@@ -119,6 +120,8 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		4A50CE891CA06B92009ECFC0 /* parson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parson.c; sourceTree = "<group>"; };
+		4A50CE8A1CA06B92009ECFC0 /* parson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parson.h; sourceTree = "<group>"; };
 		7104FD390D772F6300A97E53 /* ascii.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ascii.h; sourceTree = "<group>"; };
 		7104FD3A0D772F6300A97E53 /* battle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = battle.c; sourceTree = "<group>"; };
 		7104FD3B0D772F6300A97E53 /* battle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = battle.h; sourceTree = "<group>"; };
@@ -288,6 +291,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4A50CE881CA06B61009ECFC0 /* Parson */,
 				4AC9A7AA1C9E377200089A1A /* VFX */,
 				4AC9A7A91C9E374F00089A1A /* UI */,
 				4AC9A7A81C9E352F00089A1A /* Menus */,
@@ -347,6 +351,15 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4A50CE881CA06B61009ECFC0 /* Parson */ = {
+			isa = PBXGroup;
+			children = (
+				4A50CE891CA06B92009ECFC0 /* parson.c */,
+				4A50CE8A1CA06B92009ECFC0 /* parson.h */,
+			);
+			name = Parson;
 			sourceTree = "<group>";
 		};
 		4AC9A7A71C9E31F000089A1A /* Fonts */ = {
@@ -558,6 +571,7 @@
 				7104FD980D772F6300A97E53 /* yj1.c in Sources */,
 				7104FDA90D772FBC00A97E53 /* binfile.cpp in Sources */,
 				7104FDAB0D772FBC00A97E53 /* binio.cpp in Sources */,
+				4A50CE8B1CA06B92009ECFC0 /* parson.c in Sources */,
 				7104FDAD0D772FBC00A97E53 /* emuopl.cpp in Sources */,
 				7104FDAF0D772FBC00A97E53 /* fmopl.c in Sources */,
 				7104FDB10D772FBC00A97E53 /* fprovide.cpp in Sources */,

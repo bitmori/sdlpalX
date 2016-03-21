@@ -1197,6 +1197,7 @@ PAL_PlayerStatus(
             
             if (w != 0 &&
                 gpGlobals->g.rgObject[w].poison.wPoisonLevel <= 3)
+                // @@@ - change the poison level might enable us the ability to show all the special status?
             {
                 PAL_DrawText(PAL_GetWord(w), PAL_XY(185, y),
                              (BYTE)(gpGlobals->g.rgObject[w].poison.wColor + 10), TRUE, FALSE);
@@ -1448,26 +1449,15 @@ PAL_ItemUseMenu(
     return MENUITEM_VALUE_CANCELLED;
 }
 
-static VOID
-PAL_BuyMenu_OnItemChange(
-                         WORD           wCurrentItem
-                         )
+
 /*++
- Purpose:
- 
- Callback function which is called when player selected another item
- in the buy menu.
+ Callback function which is called when player selected another item in the buy menu.
  
  Parameters:
- 
- [IN]  wCurrentItem - current item on the menu, indicates the object ID of
- the currently selected item.
- 
- Return value:
- 
- None.
- 
+ [IN]  wCurrentItem - current item on the menu, indicates the object ID of the currently selected item.
  --*/
+static VOID
+PAL_BuyMenu_OnItemChange(WORD wCurrentItem)
 {
     const SDL_Rect      rect = {20, 8, 128, 175};
     int                 i, n;
@@ -1520,24 +1510,14 @@ PAL_BuyMenu_OnItemChange(
     VIDEO_UpdateScreen(&rect);
 }
 
-VOID
-PAL_BuyMenu(
-            WORD           wStoreNum
-            )
 /*++
- Purpose:
- 
  Show the buy item menu.
  
  Parameters:
- 
  [IN]  wStoreNum - number of the store to buy items from.
- 
- Return value:
- 
- None.
- 
  --*/
+VOID
+PAL_BuyMenu(WORD wStoreNum)
 {
     MENUITEM        rgMenuItem[MAX_STORE_ITEM];
     int             i, y;
@@ -1591,15 +1571,19 @@ PAL_BuyMenu(
             break;
         }
         
-        if (gpGlobals->g.rgObject[w].item.wPrice <= gpGlobals->dwCash)
+        INT iMaxCount = gpGlobals->dwCash / gpGlobals->g.rgObject[w].item.wPrice;
+        INT iItemAmountBuyable = 99 - gpGlobals->rgInventory[w].nAmount;
+        iMaxCount = (iMaxCount >= iItemAmountBuyable) ? iItemAmountBuyable : iMaxCount;
+        if (iMaxCount >= 1)
         {
-            if (PAL_ConfirmMenu())
+            INT iItemCount = PALX_CountMenu(iMaxCount);
+            if (iItemCount != 0)
             {
-                //
-                // Player bought an item
-                //
-                gpGlobals->dwCash -= gpGlobals->g.rgObject[w].item.wPrice;
-                PAL_AddItemToInventory(w, 1);
+                    //
+                    // Player bought an item
+                    //
+                    gpGlobals->dwCash -= (gpGlobals->g.rgObject[w].item.wPrice)*iItemCount;
+                    PAL_AddItemToInventory(w, iItemCount);
             }
         }
         
@@ -1617,26 +1601,14 @@ PAL_BuyMenu(
     }
 }
 
-static VOID
-PAL_SellMenu_OnItemChange(
-                          WORD         wCurrentItem
-                          )
 /*++
- Purpose:
- 
- Callback function which is called when player selected another item
- in the sell item menu.
+ Callback function which is called when player selected another item in the sell item menu.
  
  Parameters:
- 
- [IN]  wCurrentItem - current item on the menu, indicates the object ID of
- the currently selected item.
- 
- Return value:
- 
- None.
- 
+ [IN]  wCurrentItem - current item on the menu, indicates the object ID of the currently selected item.
  --*/
+static VOID
+PAL_SellMenu_OnItemChange(WORD wCurrentItem)
 {
     //
     // Draw the cash amount
@@ -1658,24 +1630,11 @@ PAL_SellMenu_OnItemChange(
     }
 }
 
-VOID
-PAL_SellMenu(
-             VOID
-             )
+
 /*++
- Purpose:
- 
  Show the sell item menu.
- 
- Parameters:
- 
- None.
- 
- Return value:
- 
- None.
- 
  --*/
+VOID PAL_SellMenu(void)
 {
     WORD      w;
     
@@ -1698,37 +1657,25 @@ PAL_SellMenu(
             }
         } else {
             INT iItemCount = PALX_CountMenu(iItemAmount);
-            if (iItemCount > 0 && iItemCount <= 99){
-                if (PAL_ConfirmMenu())
+            if (iItemCount != 0)
+            {
+                if (PAL_AddItemToInventory(w, -1*iItemCount))
                 {
-                    if (PAL_AddItemToInventory(w, -1*iItemCount))
-                    {
-                        gpGlobals->dwCash += (gpGlobals->g.rgObject[w].item.wPrice / 2) * iItemCount;
-                    }
+                    gpGlobals->dwCash += (gpGlobals->g.rgObject[w].item.wPrice / 2) * iItemCount;
                 }
             }
         }
     }
 }
 
-VOID
-PAL_EquipItemMenu(
-                  WORD        wItem
-                  )
 /*++
- Purpose:
- 
  Show the menu which allow players to equip the specified item.
  
  Parameters:
- 
- [IN]  wItem - the object ID of the item.
- 
- Return value:
- 
- None.
- 
+    [IN]  wItem - the object ID of the item.
  --*/
+VOID
+PAL_EquipItemMenu(WORD wItem)
 {
     PAL_LARGE BYTE   bufBackground[320 * 200];
     PAL_LARGE BYTE   bufImage[2048];
@@ -1932,17 +1879,6 @@ PAL_EquipItemMenu(
     }
 }
 
-
-
-static VOID PALX_CountMenu_OnCountChange(INT wCurrentCount) {
-    int y = 50;
-    const SDL_Rect rect = {130, y, 125, 50};
-    PAL_CreateSingleLineBox(PAL_XY(130, y+10), 5, FALSE);
-    PAL_DrawText(PAL_GetWord(ITEMMENU_LABEL_AMOUNT), PAL_XY(130+10, y+10+10), 0, FALSE, FALSE);
-    PAL_DrawNumber(wCurrentCount, 6, PAL_XY(130+49, y+10+14), kNumColorYellow, kNumAlignRight);
-    VIDEO_UpdateScreen(&rect);
-}
-
 /*++
  Show a box with a select of item count
  
@@ -1954,25 +1890,59 @@ static VOID PALX_CountMenu_OnCountChange(INT wCurrentCount) {
  --*/
 INT PALX_CountMenu(INT iMaxCount)
 {
-    MENUITEM        rgMenuItem[2];
-    WORD            wReturnValue;
+    LPBOX           rgpBox[1];
     
-    //const SDL_Rect rect = {130, 70, 125, 50};
-
-    PALX_CountMenu_OnCountChange(1);
+    int y = 50;
+    PAL_POS posBox = PAL_XY(130, y + 10);
+    PAL_POS posTag = PAL_XY(130+10, y+10+10);
+    PAL_POS posNumber = PAL_XY(130+49, y+10+14);
+    const SDL_Rect rect = {130, y, 125, 50};
+    
+    //
+    // Create the boxes
+    //
+    rgpBox[0] = PAL_CreateSingleLineBox(posBox, 5, TRUE);
+    PAL_DrawText(PAL_GetWord(ITEMMENU_LABEL_AMOUNT), posTag, 0, FALSE, FALSE);
+    PAL_DrawNumber(1, 5, posNumber, kNumColorYellow, kNumAlignRight);
+    VIDEO_UpdateScreen(&rect);
+    
     //
     // Activate the menu
     //
-    wReturnValue = PALX_NumberSelectBox2(PALX_CountMenu_OnCountChange, rgMenuItem, iMaxCount);
+    WORD wReturnValue = PALX_NumberSelectBox(ITEMMENU_LABEL_AMOUNT, iMaxCount);
     
-    //VIDEO_UpdateScreen(&rect);
+    if (wReturnValue != MENUITEM_VALUE_CANCELLED) {
+        if (!PAL_ConfirmMenu()) {
+            wReturnValue = 0;
+        }
+    }
+    //
+    // Delete the boxes
+    //
+    PAL_DeleteBox(rgpBox[0]);
+    
+    VIDEO_UpdateScreen(&rect);
     
     return (wReturnValue == MENUITEM_VALUE_CANCELLED || wReturnValue == 0) ? 0 : wReturnValue;
 }
 
-WORD PALX_NumberSelectBox2(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged, LPMENUITEM rgMenuItem, INT iMaxCount)
+
+INT PALX_NumberSelectBox(WORD wNumWord, INT iMaxCount)
 {
-    INT wCurrentCount = 1;
+    WORD wCurrentCount = 1;
+    int y = 50;
+    PAL_POS posBox = PAL_XY(130, y + 10);
+    PAL_POS posTag = PAL_XY(130+10, y+10+10);
+    PAL_POS posNumber = PAL_XY(130+49, y+10+14);
+    const SDL_Rect rect = {130, y, 125, 50};
+
+#define UPDATE_BOX()                                                            \
+{                                                                               \
+PAL_CreateSingleLineBox(posBox, 5, FALSE);                                      \
+PAL_DrawText(PAL_GetWord(wNumWord), posTag, 0, FALSE, FALSE);                   \
+PAL_DrawNumber(wCurrentCount, 5, posNumber, kNumColorYellow, kNumAlignRight);   \
+VIDEO_UpdateScreen(&rect);                                                      \
+}
     
     while (TRUE)
     {
@@ -1988,11 +1958,11 @@ WORD PALX_NumberSelectBox2(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged, LPMEN
             {
                 wCurrentCount = iMaxCount;
             }
-            
-            if (lpfnCountBoxChanged != NULL)
-            {
-                (*lpfnCountBoxChanged)(wCurrentCount);
-            }
+            UPDATE_BOX();
+//            PAL_CreateSingleLineBox(posBox, 6, FALSE);
+//            PAL_DrawText(PAL_GetWord(wNumWord), posTag, 0, FALSE, FALSE);
+//            PAL_DrawNumber(wCurrentCount, 6, posNumber, kNumColorYellow, kNumAlignRight);
+//            VIDEO_UpdateScreen(&rect);
         }
         else if (g_InputState.dwKeyPress & kKeyDown)
         {
@@ -2005,46 +1975,33 @@ WORD PALX_NumberSelectBox2(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged, LPMEN
             {
                 wCurrentCount = 1;
             }
-            if (lpfnCountBoxChanged != NULL)
+            UPDATE_BOX();
+        }
+        else if (g_InputState.dwKeyPress & kKeyRight)
+        {
+            // R -> +5
+            wCurrentCount += 5 ;
+            if (wCurrentCount >= iMaxCount)
             {
-                (*lpfnCountBoxChanged)(wCurrentCount);
+                wCurrentCount = iMaxCount;
             }
+            UPDATE_BOX();
         }
         else if (g_InputState.dwKeyPress & kKeyLeft)
         {
-            // LEFT -> -5
-            if (wCurrentCount > 5) {
+            // L -> -5
+            if (wCurrentCount > 5)
+            {
                 wCurrentCount -= 5;
             }
             else
             {
                 wCurrentCount = 1;
             }
-            
-            if (lpfnCountBoxChanged != NULL)
-            {
-                (*lpfnCountBoxChanged)(wCurrentCount);
-            }
-        }
-        else if (g_InputState.dwKeyPress & kKeyRight)
-        {
-            // RIGHT -> +5
-            wCurrentCount += 5 ;
-            if (wCurrentCount >= iMaxCount)
-            {
-                wCurrentCount = iMaxCount;
-            }
-            
-            if (lpfnCountBoxChanged != NULL)
-            {
-                (*lpfnCountBoxChanged)(wCurrentCount);
-            }
+            UPDATE_BOX();
         }
         else if (g_InputState.dwKeyPress & kKeyMenu)
         {
-            //
-            // User cancelled
-            //
             break;
         }
         else if (g_InputState.dwKeyPress & kKeySearch)
@@ -2060,6 +2017,6 @@ WORD PALX_NumberSelectBox2(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged, LPMEN
         //
         SDL_Delay(50);
     }
+#undef UPDATE_BOX
     return MENUITEM_VALUE_CANCELLED;
 }
-

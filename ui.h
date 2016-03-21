@@ -207,8 +207,7 @@ PAL_ReadMenu(
    WORD                      wDefaultItem,
    BYTE                      bLabelColor
 );
-    
-WORD PALX_NumberSelectBox(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged,LPMENUITEM rgMenuItem, INT iMaxCount);
+
 
 VOID
 PAL_DrawNumber(
@@ -218,7 +217,7 @@ PAL_DrawNumber(
    NUMCOLOR        color,
    NUMALIGN        align
 );
-
+    
 LPOBJECTDESC
 PAL_LoadObjectDesc(
    LPCSTR          lpszFileName

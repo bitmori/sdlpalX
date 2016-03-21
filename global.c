@@ -65,6 +65,7 @@ INT PAL_InitGlobals(void)
    gpGlobals->f.fpRGM = UTIL_OpenRequiredFile("rgm.mkf");
    gpGlobals->f.fpSSS = UTIL_OpenRequiredFile("sss.mkf");
 #ifndef PAL_WIN95
+    // @@@ - this is where the desc.dat get loaded.
    gpGlobals->lpObjectDesc = PAL_LoadObjectDesc(va("%s%s", PAL_PREFIX, "desc.dat"));
 #endif
    gpGlobals->bCurrentSaveSlot = 1;
