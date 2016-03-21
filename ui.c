@@ -586,6 +586,85 @@ PAL_ReadMenu(
    return MENUITEM_VALUE_CANCELLED;
 }
 
+WORD PALX_NumberSelectBox(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged, LPMENUITEM rgMenuItem, INT iMaxCount)
+{
+    INT wCurrentCount = 0;
+    WORD wCurrentItem = 0;
+    const SDL_Rect  rect = {130, 70, 125, 50};
+    //
+    // Draw the count
+    //
+    // @@@ - change the xy position.
+    // these are the static content that require no real-time refresh.
+    // !!! - update = true
+    //PAL_DrawText(PAL_GetWord(ITEMMENU_LABEL_AMOUNT), rgMenuItem[0].pos, 0, FALSE, FALSE);
+    while (TRUE)
+    {
+        PAL_ClearKeyState();
+        
+        
+        // this is the dynamic content that needs to be refreshed.
+        //PAL_DrawNumber(wCurrentCount, 2, rgMenuItem[1].pos, kNumColorYellow, kNumAlignRight);
+        
+        PAL_ProcessEvent();
+        
+        if (g_InputState.dwKeyPress & kKeyUp)
+        {
+            //PAL_DrawNumber(wCurrentCount, 2, rgMenuItem[1].pos, kNumColorYellow, kNumAlignRight);
+            //PALX_ShowAmount()
+            VIDEO_UpdateScreen(&rect);
+            wCurrentCount ++ ;
+            if (wCurrentCount >= iMaxCount)
+            {
+                wCurrentCount = iMaxCount;
+            }
+            
+            if (lpfnCountBoxChanged != NULL)
+            {
+                (*lpfnCountBoxChanged)(wCurrentCount);
+            }
+        }
+        else if (g_InputState.dwKeyPress & kKeyDown)
+        {
+            PAL_DrawNumber(wCurrentCount, 2, rgMenuItem[1].pos, kNumColorYellow, kNumAlignRight);
+            VIDEO_UpdateScreen(&rect);
+            if (wCurrentCount > 0)
+            {
+                wCurrentCount --;
+            }
+            else
+            {
+                wCurrentItem = 0;
+            }
+            
+            if (lpfnCountBoxChanged != NULL)
+            {
+                (*lpfnCountBoxChanged)(wCurrentCount);
+            }
+        }
+        else if (g_InputState.dwKeyPress & kKeyMenu)
+        {
+            //
+            // User cancelled
+            //
+            break;
+        }
+        else if (g_InputState.dwKeyPress & kKeySearch)
+        {
+            //
+            // User pressed Enter
+            //
+            return wCurrentCount;
+        }
+        
+        //
+        // Use delay function to avoid high CPU usage.
+        //
+        SDL_Delay(50);
+    }
+    return MENUITEM_VALUE_CANCELLED;
+}
+
 VOID
 PAL_DrawNumber(
    UINT            iNum,

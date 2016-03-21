@@ -27,9 +27,6 @@
 #define    FPS             10
 #define    FRAME_TIME      (1000 / FPS)
 
-VOID
-PAL_GameMain(
-   VOID
-);
+VOID PAL_GameMain(void);
 
 #endif

@@ -34,24 +34,10 @@ typedef struct tagRESOURCES
 
 static LPRESOURCES gpResources = NULL;
 
-static VOID
-PAL_FreeEventObjectSprites(
-   VOID
-)
 /*++
-  Purpose:
-
-    Free all sprites of event objects on the scene.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Free all sprites of event objects on the scene.
+ --*/
+static VOID PAL_FreeEventObjectSprites(void)
 {
    int i;
 
@@ -69,24 +55,10 @@ PAL_FreeEventObjectSprites(
    }
 }
 
-static VOID
-PAL_FreePlayerSprites(
-   VOID
-)
 /*++
-  Purpose:
-
-    Free all player sprites.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Free all player sprites.
+ --*/
+static VOID PAL_FreePlayerSprites(void)
 {
    int i;
 
@@ -97,46 +69,18 @@ PAL_FreePlayerSprites(
    }
 }
 
-VOID
-PAL_InitResources(
-   VOID
-)
 /*++
-  Purpose:
-
-    Initialze the resource manager.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Initialze the resource manager.
+ --*/
+VOID PAL_InitResources(void)
 {
    gpResources = (LPRESOURCES)UTIL_calloc(1, sizeof(RESOURCES));
 }
 
-VOID
-PAL_FreeResources(
-   VOID
-)
 /*++
-  Purpose:
-
-    Free all loaded resources.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
+ Free all loaded resources.
 --*/
+VOID PAL_FreeResources(void)
 {
    if (gpResources != NULL)
    {
@@ -160,24 +104,13 @@ PAL_FreeResources(
    gpResources = NULL;
 }
 
-VOID
-PAL_SetLoadFlags(
-   BYTE       bFlags
-)
 /*++
-  Purpose:
+ Set flags to load resources.
 
-    Set flags to load resources.
-
-  Parameters:
-
+ Parameters:
     [IN]  bFlags - flags to be set.
-
-  Return value:
-
-    None.
-
 --*/
+VOID PAL_SetLoadFlags(BYTE bFlags)
 {
    if (gpResources == NULL)
    {
@@ -187,24 +120,10 @@ PAL_SetLoadFlags(
    gpResources->bLoadFlags |= bFlags;
 }
 
-VOID
-PAL_LoadResources(
-   VOID
-)
 /*++
-  Purpose:
-
-    Load the game resources if needed.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
+ Load the game resources if needed.
 --*/
+VOID PAL_LoadResources(void)
 {
    int                i, index, l, n;
    WORD               wPlayerID, wSpriteNum;
@@ -345,24 +264,14 @@ PAL_LoadResources(
    gpResources->bLoadFlags = 0;
 }
 
-LPPALMAP
-PAL_GetCurrentMap(
-   VOID
-)
 /*++
-  Purpose:
+ Get the current loaded map.
 
-    Get the current loaded map.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
+ Return value:
     Pointer to the current loaded map. NULL if no map is loaded.
 
 --*/
+LPPALMAP PAL_GetCurrentMap(void)
 {
    if (gpResources == NULL)
    {
@@ -372,24 +281,17 @@ PAL_GetCurrentMap(
    return gpResources->lpMap;
 }
 
-LPSPRITE
-PAL_GetPlayerSprite(
-   BYTE      bPlayerIndex
-)
 /*++
-  Purpose:
-
-    Get the player sprite.
-
-  Parameters:
-
+ Get the player sprite.
+ 
+ Parameters:
     [IN]  bPlayerIndex - index of player in party (starts from 0).
 
-  Return value:
-
+ Return value:
     Pointer to the player sprite.
 
 --*/
+LPSPRITE PAL_GetPlayerSprite(BYTE bPlayerIndex)
 {
    if (gpResources == NULL || bPlayerIndex > MAX_PLAYERS_IN_PARTY)
    {
@@ -399,24 +301,16 @@ PAL_GetPlayerSprite(
    return gpResources->rglpPlayerSprite[bPlayerIndex];
 }
 
-LPSPRITE
-PAL_GetEventObjectSprite(
-   WORD      wEventObjectID
-)
 /*++
-  Purpose:
+ Get the sprite of the specified event object.
 
-    Get the sprite of the specified event object.
-
-  Parameters:
-
+ Parameters:
     [IN]  wEventObjectID - the ID of event object.
-
-  Return value:
-
+ 
+ Return value:
     Pointer to the sprite.
-
 --*/
+LPSPRITE PAL_GetEventObjectSprite(WORD wEventObjectID)
 {
    wEventObjectID -= gpGlobals->g.rgScene[gpGlobals->wNumScene - 1].wEventObjectIndex;
    wEventObjectID--;

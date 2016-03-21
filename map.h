@@ -70,51 +70,17 @@ typedef struct tagPALMAP
 
 typedef const PALMAP *LPCPALMAP;
 
-LPPALMAP
-PAL_LoadMap(
-   INT               iMapNum,
-   FILE             *fpMapMKF,
-   FILE             *fpGopMKF
-);
+LPPALMAP PAL_LoadMap(INT iMapNum, FILE * fpMapMKF, FILE * fpGopMKF);
 
-VOID
-PAL_FreeMap(
-   LPPALMAP          lpMap
-);
+VOID PAL_FreeMap(LPPALMAP lpMap);
 
-LPCBITMAPRLE
-PAL_MapGetTileBitmap(
-   BYTE       x,
-   BYTE       y,
-   BYTE       h,
-   BYTE       ucLayer,
-   LPCPALMAP  lpMap
-);
+LPCBITMAPRLE PAL_MapGetTileBitmap(BYTE x, BYTE y, BYTE h, BYTE ucLayer,LPCPALMAP lpMap);
 
-BOOL
-PAL_MapTileIsBlocked(
-   BYTE       x,
-   BYTE       y,
-   BYTE       h,
-   LPCPALMAP  lpMap
-);
+BOOL PAL_MapTileIsBlocked(BYTE x, BYTE y, BYTE h, LPCPALMAP lpMap);
 
-BYTE
-PAL_MapGetTileHeight(
-   BYTE       x,
-   BYTE       y,
-   BYTE       h,
-   BYTE       ucLayer,
-   LPCPALMAP  lpMap
-);
+BYTE PAL_MapGetTileHeight(BYTE x, BYTE y, BYTE h, BYTE ucLayer, LPCPALMAP lpMap);
 
-VOID
-PAL_MapBlitToSurface(
-   LPCPALMAP             lpMap,
-   SDL_Surface          *lpSurface,
-   const SDL_Rect       *lpSrcRect,
-   BYTE                  ucLayer
-);
+VOID PAL_MapBlitToSurface(LPCPALMAP  lpMap, SDL_Surface * lpSurface, const SDL_Rect * lpSrcRect, BYTE ucLayer);
 
 //
 // Convert map location to the real location

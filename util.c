@@ -34,24 +34,14 @@
 #include "SDL_messagebox.h"
 #endif
 
-void
-trim(
-   char *str
-)
 /*++
-  Purpose:
-
-    Remove the leading and trailing spaces in a string.
-
-  Parameters:
-
-    str - the string to proceed.
-
-  Return value:
-
-    None.
-
---*/
+ Remove the leading and trailing spaces in a string.
+ 
+ Parameters:
+ str - the string to proceed.
+ --*/
+// ??? where is the return value used???
+void trim(char *str)
 {
    int pos = 0;
    char *dest = str;
@@ -77,26 +67,17 @@ trim(
       *(dest--) = '\0';
 }
 
-char *
-va(
-   const char *format,
-   ...
-)
+
 /*++
-  Purpose:
-
-    Does a varargs printf into a temp buffer, so we don't need to have
-    varargs versions of all text functions.
-
-  Parameters:
-
+ Do a varargs printf into a temp buffer, so we don't need to have varargs versions of all text functions.
+ 
+ Parameters:
     format - the format string.
 
-  Return value:
-
+ Return value:
     Pointer to the result string.
-
---*/
+ --*/
+char * va(const char *format,...)
 {
    static char string[256];
    va_list     argptr;
@@ -107,6 +88,7 @@ va(
 
    return string;
 }
+
 
 /*
  * RNG code based on RACC by Pierre-Marie Baty.
@@ -151,25 +133,14 @@ va(
 //
 static int glSeed = 0;
 
-static void
-lsrand(
-   unsigned int iInitialSeed
-)
 /*++
-  Purpose:
-
-    This function initializes the random seed based on the initial seed value passed in the
-    iInitialSeed parameter.
-
-  Parameters:
-
+ This function initializes the random seed based on the initial seed value passed in the
+ iInitialSeed parameter.
+ 
+ Parameters:
     [IN]  iInitialSeed - The initial random seed.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+static void lsrand(unsigned int iInitialSeed)
 {
    //
    // fill in the initial seed of the random number generator
@@ -177,26 +148,13 @@ lsrand(
    glSeed = 1664525L * iInitialSeed + 1013904223L;
 }
 
-static int
-lrand(
-   void
-)
 /*++
-  Purpose:
+ This function is the equivalent of the rand() standard C library function, except that whereas rand() works only with short integers (i.e. not above 32767), this function is able to generate 32-bit random numbers.
 
-    This function is the equivalent of the rand() standard C library function, except that
-    whereas rand() works only with short integers (i.e. not above 32767), this function is
-    able to generate 32-bit random numbers.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
+ Return value:
     The generated random number.
-
---*/
+ --*/
+static int lrand(void)
 {
    if (glSeed == 0) // if the random seed isn't initialized...
       lsrand((unsigned int)time(NULL)); // initialize it first
@@ -204,28 +162,17 @@ lrand(
    return ((glSeed >> 1) + 1073741824L); // and return the result.
 }
 
-int
-RandomLong(
-   int from,
-   int to
-)
 /*++
-  Purpose:
-
-    This function returns a random integer number between (and including) the starting and
-    ending values passed by parameters from and to.
-
-  Parameters:
-
+ This function returns a random integer number between (and including) the starting and ending values passed by parameters from and to.
+ 
+ Parameters:
     from - the starting value.
-
     to - the ending value.
-
-  Return value:
-
+ 
+ Return value:
     The generated random number.
-
---*/
+ --*/
+int RandomLong(int from, int to)
 {
    if (to <= from)
       return from;
@@ -233,28 +180,17 @@ RandomLong(
    return from + lrand() / (INT_MAX / (to - from + 1));
 }
 
-float
-RandomFloat(
-   float from,
-   float to
-)
 /*++
-  Purpose:
-
-    This function returns a random floating-point number between (and including) the starting
-    and ending values passed by parameters from and to.
-
-  Parameters:
-
+ This function returns a random floating-point number between (and including) the starting and ending values passed by parameters from and to.
+ 
+ Parameters:
     from - the starting value.
-
     to - the ending value.
-
-  Return value:
-
+ 
+ Return value:
     The generated random number.
-
---*/
+ --*/
+float RandomFloat(float from, float to)
 {
    if (to <= from)
       return from;
@@ -262,10 +198,7 @@ RandomFloat(
    return from + (float)lrand() / (INT_MAX / (to - from));
 }
 
-void
-UTIL_Delay(
-   unsigned int ms
-)
+void UTIL_Delay(unsigned int ms)
 {
    unsigned int t = SDL_GetTicks() + ms;
 
@@ -282,14 +215,10 @@ UTIL_Delay(
 #endif
 }
 
-void
-TerminateOnError(
-   const char *fmt,
-   ...
-)
-// This function terminates the game because of an error and
-// prints the message string pointed to by fmt both in the
-// console and in a messagebox.
+/*++
+ This function terminates the game because of an error and prints the message string pointed to by fmt both in the console and in a messagebox.
+ --*/
+void TerminateOnError(const char *fmt,...)
 {
    va_list argptr;
    char string[256];
@@ -338,13 +267,11 @@ PAL_Shutdown();
 #endif
 }
 
-void *
-UTIL_malloc(
-   size_t               buffer_size
-)
+/*++ 
+ handy wrapper for operations we always forget, like checking malloc's returned pointer.
+ --*/
+void * UTIL_malloc(size_t buffer_size)
 {
-   // handy wrapper for operations we always forget, like checking malloc's returned pointer.
-
    void *buffer;
 
    // first off, check if buffer size is valid
@@ -360,14 +287,11 @@ UTIL_malloc(
    return buffer; // nothing went wrong, so return buffer pointer
 }
 
-void *
-UTIL_calloc(
-   size_t               n,
-   size_t               size
-)
+/*++
+ handy wrapper for operations we always forget, like checking calloc's returned pointer.
+ --*/
+void * UTIL_calloc(size_t n, size_t size)
 {
-   // handy wrapper for operations we always forget, like checking calloc's returned pointer.
-
    void *buffer;
 
    // first off, check if buffer size is valid
@@ -383,24 +307,16 @@ UTIL_calloc(
    return buffer; // nothing went wrong, so return buffer pointer
 }
 
-FILE *
-UTIL_OpenRequiredFile(
-   LPCSTR            lpszFileName
-)
 /*++
-  Purpose:
-
-    Open a required file. If fails, quit the program.
-
-  Parameters:
-
+ Open a required file. If fails, quit the program.
+ 
+ Parameters:
     [IN]  lpszFileName - file name to open.
-
-  Return value:
-
+ 
+ Return value:
     Pointer to the file.
-
---*/
+ --*/
+FILE * UTIL_OpenRequiredFile(LPCSTR lpszFileName)
 {
    FILE         *fp;
 
@@ -436,24 +352,16 @@ UTIL_OpenRequiredFile(
    return fp;
 }
 
-FILE *
-UTIL_OpenFile(
-   LPCSTR            lpszFileName
-)
 /*++
-  Purpose:
-
-    Open a file. If fails, return NULL.
-
-  Parameters:
-
+ Open a file. If fails, return NULL.
+ 
+ Parameters:
     [IN]  lpszFileName - file name to open.
-
-  Return value:
-
+ 
+ Return value:
     Pointer to the file.
-
---*/
+ --*/
+FILE * UTIL_OpenFile(LPCSTR lpszFileName)
 {
    FILE         *fp;
 
@@ -484,24 +392,13 @@ UTIL_OpenFile(
    return fp;
 }
 
-VOID
-UTIL_CloseFile(
-   FILE             *fp
-)
 /*++
-  Purpose:
-
-    Close a file.
-
-  Parameters:
-
+ Close a file.
+ 
+ Parameters:
     [IN]  fp - file handle to be closed.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+VOID UTIL_CloseFile(FILE * fp)
 {
    if (fp != NULL)
    {
@@ -513,10 +410,7 @@ UTIL_CloseFile(
 
 static FILE *pLogFile = NULL;
 
-FILE *
-UTIL_OpenLog(
-   VOID
-)
+FILE * UTIL_OpenLog(void)
 {
    if ((pLogFile = fopen(_PATH_LOG, "a+")) == NULL)
    {
@@ -526,10 +420,7 @@ UTIL_OpenLog(
    return pLogFile;
 }
 
-VOID
-UTIL_CloseLog(
-   VOID
-)
+VOID UTIL_CloseLog(void)
 {
    if (pLogFile != NULL)
    {
@@ -537,12 +428,7 @@ UTIL_CloseLog(
    }
 }
 
-VOID
-UTIL_WriteLog(
-   int             Priority,
-   const char     *Fmt,
-   ...
-)
+VOID UTIL_WriteLog(int Priority, const char * Fmt,...)
 {
    va_list       vaa;
    time_t        lTime;

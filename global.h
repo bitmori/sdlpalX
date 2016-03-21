@@ -598,177 +598,68 @@ typedef struct tagSAVEDGAME
 
 extern LPGLOBALVARS gpGlobals;
 
-INT
-PAL_InitGlobals(
-   VOID
-);
+// @@@ - all the GLOBAL functions exist here
+INT PAL_InitGlobals(void);
 
-VOID
-PAL_FreeGlobals(
-   VOID
-);
+VOID PAL_FreeGlobals(void);
 
-VOID
-PAL_SaveGame(
-   LPCSTR        szFileName,
-   WORD          wSavedTimes
-);
+VOID PAL_SaveGame(LPCSTR szFileName, WORD wSavedTimes);
 
-VOID
-PAL_InitGameData(
-   INT           iSaveSlot
-);
+VOID PAL_InitGameData(INT iSaveSlot);
 
-BOOL
-PAL_AddItemToInventory(
-   WORD          wObjectID,
-   INT           iNum
-);
+BOOL PAL_AddItemToInventory(WORD wObjectID, INT iNum);
 
-BOOL
-PAL_IncreaseHPMP(
-   WORD          wPlayerRole,
-   SHORT         sHP,
-   SHORT         sMP
-);
+BOOL PAL_IncreaseHPMP(WORD wPlayerRole, SHORT sHP, SHORT sMP);
 
-INT
-PAL_GetItemAmount(
-   WORD        wItem
-);
+INT PAL_GetItemAmount(WORD wItem);
 
-VOID
-PAL_UpdateEquipments(
-   VOID
-);
+VOID PAL_UpdateEquipments(void);
 
-VOID
-PAL_CompressInventory(
-   VOID
-);
+VOID PAL_CompressInventory(void);
 
-VOID
-PAL_RemoveEquipmentEffect(
-   WORD         wPlayerRole,
-   WORD         wEquipPart
-);
+VOID PAL_RemoveEquipmentEffect(WORD wPlayerRole, WORD wEquipPart);
 
-VOID
-PAL_AddPoisonForPlayer(
-   WORD           wPlayerRole,
-   WORD           wPoisonID
-);
+VOID PAL_AddPoisonForPlayer(WORD wPlayerRole, WORD wPoisonID);
 
-VOID
-PAL_CurePoisonByKind(
-   WORD           wPlayerRole,
-   WORD           wPoisonID
-);
+VOID PAL_CurePoisonByKind(WORD wPlayerRole, WORD wPoisonID);
 
-VOID
-PAL_CurePoisonByLevel(
-   WORD           wPlayerRole,
-   WORD           wMaxLevel
-);
+VOID PAL_CurePoisonByLevel(WORD wPlayerRole, WORD wMaxLevel);
 
-BOOL
-PAL_IsPlayerPoisonedByLevel(
-   WORD           wPlayerRole,
-   WORD           wMinLevel
-);
+BOOL PAL_IsPlayerPoisonedByLevel(WORD wPlayerRole, WORD wMinLevel);
 
-BOOL
-PAL_IsPlayerPoisonedByKind(
-   WORD           wPlayerRole,
-   WORD           wPoisonID
-);
+BOOL PAL_IsPlayerPoisonedByKind(WORD wPlayerRole, WORD wPoisonID);
 
-WORD
-PAL_GetPlayerAttackStrength(
-   WORD           wPlayerRole
-);
+WORD PAL_GetPlayerAttackStrength(WORD wPlayerRole);
 
-WORD
-PAL_GetPlayerMagicStrength(
-   WORD           wPlayerRole
-);
+WORD PAL_GetPlayerMagicStrength(WORD wPlayerRole);
 
-WORD
-PAL_GetPlayerDefense(
-   WORD           wPlayerRole
-);
+WORD PAL_GetPlayerDefense(WORD wPlayerRole);
 
-WORD
-PAL_GetPlayerDexterity(
-   WORD           wPlayerRole
-);
+WORD PAL_GetPlayerDexterity(WORD wPlayerRole);
 
-WORD
-PAL_GetPlayerFleeRate(
-   WORD           wPlayerRole
-);
+WORD PAL_GetPlayerFleeRate(WORD wPlayerRole);
 
-WORD
-PAL_GetPlayerPoisonResistance(
-   WORD           wPlayerRole
-);
+WORD PAL_GetPlayerPoisonResistance(WORD wPlayerRole);
 
-WORD
-PAL_GetPlayerElementalResistance(
-   WORD           wPlayerRole,
-   INT            iAttrib
-);
+WORD PAL_GetPlayerElementalResistance(WORD wPlayerRole, INT iAttrib);
 
-WORD
-PAL_GetPlayerBattleSprite(
-   WORD           wPlayerRole
-);
+WORD PAL_GetPlayerBattleSprite(WORD wPlayerRole);
 
-WORD
-PAL_GetPlayerCooperativeMagic(
-   WORD           wPlayerRole
-);
+WORD PAL_GetPlayerCooperativeMagic(WORD wPlayerRole);
 
-BOOL
-PAL_PlayerCanAttackAll(
-   WORD           wPlayerRole
-);
+BOOL PAL_PlayerCanAttackAll(WORD wPlayerRole);
 
-BOOL
-PAL_AddMagic(
-   WORD           wPlayerRole,
-   WORD           wMagic
-);
+BOOL PAL_AddMagic(WORD wPlayerRole, WORD wMagic);
 
-VOID
-PAL_RemoveMagic(
-   WORD           wPlayerRole,
-   WORD           wMagic
-);
+VOID PAL_RemoveMagic(WORD wPlayerRole, WORD wMagic);
 
-VOID
-PAL_SetPlayerStatus(
-   WORD         wPlayerRole,
-   WORD         wStatusID,
-   WORD         wNumRound
-);
+VOID PAL_SetPlayerStatus(WORD wPlayerRole, WORD wStatusID, WORD wNumRound);
 
-VOID
-PAL_RemovePlayerStatus(
-   WORD         wPlayerRole,
-   WORD         wStatusID
-);
+VOID PAL_RemovePlayerStatus(WORD wPlayerRole, WORD wStatusID);
 
-VOID
-PAL_ClearAllPlayerStatus(
-   VOID
-);
+VOID PAL_ClearAllPlayerStatus(void);
 
-VOID
-PAL_PlayerLevelUp(
-   WORD          wPlayerRole,
-   WORD          wNumLevel
-);
+VOID PAL_PlayerLevelUp(WORD wPlayerRole, WORD wNumLevel);
 
 #ifdef __cplusplus
 }

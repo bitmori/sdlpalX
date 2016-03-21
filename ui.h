@@ -84,6 +84,11 @@ extern "C"
 #define BATTLESPEEDMENU_LABEL_4            (PAL_ADDITIONAL_WORD_FIRST + 4)
 #define BATTLESPEEDMENU_LABEL_5            (PAL_ADDITIONAL_WORD_FIRST + 5)
 
+
+// @@@ - Amount
+#define ITEMMENU_LABEL_AMOUNT              (PAL_ADDITIONAL_WORD_FIRST+6)
+
+    
 #define INVMENU_LABEL_USE                  23
 #define INVMENU_LABEL_EQUIP                22
 
@@ -146,7 +151,7 @@ typedef struct tagOBJECTDESC
 } OBJECTDESC, *LPOBJECTDESC;
 
 typedef VOID (*LPITEMCHANGED_CALLBACK)(WORD);
-
+typedef VOID (*LPCOUNTBOXCHANGED_CALLBACK)(INT);
 #define MENUITEM_VALUE_CANCELLED      0xFFFF
 
 typedef enum tagNUMCOLOR
@@ -202,6 +207,8 @@ PAL_ReadMenu(
    WORD                      wDefaultItem,
    BYTE                      bLabelColor
 );
+    
+WORD PALX_NumberSelectBox(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged,LPMENUITEM rgMenuItem, INT iMaxCount);
 
 VOID
 PAL_DrawNumber(

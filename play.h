@@ -26,32 +26,17 @@
 extern "C"
 {
 #endif
-
-VOID
-PAL_GameUpdate(
-   BOOL       fTrigger
-);
-
-VOID
-PAL_GameUseItem(
-   VOID
-);
-
-VOID
-PAL_GameEquipItem(
-   VOID
-);
-
-VOID
-PAL_StartFrame(
-   VOID
-);
-
-VOID
-PAL_WaitForKey(
-   WORD      wTimeOut
-);
-
+    
+    VOID PAL_GameUpdate(BOOL fTrigger);
+    
+    VOID PAL_GameUseItem(void);
+    
+    VOID PAL_GameEquipItem(void);
+    
+    VOID PAL_StartFrame(void);
+    
+    VOID PAL_WaitForKey(WORD wTimeOut);
+    
 #ifdef __cplusplus
 }
 #endif

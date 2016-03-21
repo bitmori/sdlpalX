@@ -35,24 +35,14 @@ LPGLOBALVARS gpGlobals = NULL;
       DO_BYTESWAP(buf, size);                                    \
    }
 
-INT
-PAL_InitGlobals(
-   VOID
-)
+
 /*++
-  Purpose:
+ Initialize global data.
 
-    Initialize global data.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    0 = success, -1 = error.
-
---*/
+ Return value:
+ 0 = success, -1 = error.
+ --*/
+INT PAL_InitGlobals(void)
 {
    if (gpGlobals == NULL)
    {
@@ -82,24 +72,11 @@ PAL_InitGlobals(
    return 0;
 }
 
-VOID
-PAL_FreeGlobals(
-   VOID
-)
+
 /*++
-  Purpose:
-
-    Free global data.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Free global data.
+ --*/
+VOID PAL_FreeGlobals(void)
 {
    if (gpGlobals != NULL)
    {
@@ -143,24 +120,10 @@ PAL_FreeGlobals(
 }
 
 
-static VOID
-PAL_ReadGlobalGameData(
-   VOID
-)
 /*++
-  Purpose:
-
-    Read global game data from data files.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Read global game data from data files.
+ --*/
+static VOID PAL_ReadGlobalGameData(void)
 {
    const GAMEDATA    *p = &gpGlobals->g;
    unsigned int       i;
@@ -187,24 +150,11 @@ PAL_ReadGlobalGameData(
    DO_BYTESWAP(p->rgLevelUpExp, sizeof(p->rgLevelUpExp));
 }
 
-static VOID
-PAL_InitGlobalGameData(
-   VOID
-)
+
 /*++
-  Purpose:
-
-    Initialize global game data.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Initialize global game data.
+ --*/
+static VOID PAL_InitGlobalGameData(void)
 {
    int        len;
 
@@ -253,24 +203,10 @@ PAL_InitGlobalGameData(
 #undef PAL_DOALLOCATE
 }
 
-static VOID
-PAL_LoadDefaultGame(
-   VOID
-)
 /*++
-  Purpose:
-
-    Load the default game data.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Load the default game data.
+ --*/
+static VOID PAL_LoadDefaultGame(void)
 {
    const GAMEDATA    *p = &gpGlobals->g;
    UINT32             i;
@@ -327,24 +263,17 @@ PAL_LoadDefaultGame(
    gpGlobals->fEnteringScene = TRUE;
 }
 
-static INT
-PAL_LoadGame(
-   LPCSTR         szFileName
-)
+
 /*++
-  Purpose:
-
-    Load a saved game.
-
-  Parameters:
-
-    [IN]  szFileName - file name of saved game.
-
-  Return value:
-
-    0 if success, -1 if failed.
-
---*/
+ Load a saved game.
+ 
+ Parameters:
+ [IN]  szFileName - file name of saved game.
+ 
+ Return value:
+ 0 if success, -1 if failed.
+ --*/
+static INT PAL_LoadGame(LPCSTR szFileName)
 {
    FILE                     *fp;
    PAL_LARGE SAVEDGAME       s;
@@ -425,25 +354,14 @@ PAL_LoadGame(
    return 0;
 }
 
-VOID
-PAL_SaveGame(
-   LPCSTR         szFileName,
-   WORD           wSavedTimes
-)
+
 /*++
-  Purpose:
-
-    Save the current game state to file.
-
-  Parameters:
-
-    [IN]  szFileName - file name of saved game.
-
-  Return value:
-
-    None.
-
---*/
+ Save the current game state to file.
+ 
+ Parameters:
+ [IN]  szFileName - file name of saved game.
+ --*/
+VOID PAL_SaveGame(LPCSTR szFileName, WORD wSavedTimes)
 {
    FILE                     *fp;
    PAL_LARGE SAVEDGAME       s;
@@ -515,24 +433,14 @@ PAL_SaveGame(
    fclose(fp);
 }
 
-VOID
-PAL_InitGameData(
-   INT         iSaveSlot
-)
+
 /*++
-  Purpose:
-
-    Initialize the game data (used when starting a new game or loading a saved game).
-
-  Parameters:
-
-    [IN]  iSaveSlot - Slot of saved game.
-
-  Return value:
-
-    None.
-
---*/
+ Initialize the game data (used when starting a new game or loading a saved game).
+ 
+ Parameters:
+ [IN]  iSaveSlot - Slot of saved game.
+ --*/
+VOID PAL_InitGameData(INT iSaveSlot)
 {
    PAL_InitGlobalGameData();
 
@@ -559,27 +467,18 @@ PAL_InitGameData(
    PAL_UpdateEquipments();
 }
 
-BOOL
-PAL_AddItemToInventory(
-   WORD          wObjectID,
-   INT           iNum
-)
+
 /*++
-  Purpose:
-
-    Add or remove the specified kind of item in the inventory.
-
-  Parameters:
-
-    [IN]  wObjectID - object number of the item.
-
-    [IN]  iNum - number to be added (positive value) or removed (negative value).
-
-  Return value:
-
-    TRUE if succeeded, FALSE if failed.
-
---*/
+ Add or remove the specified kind of item in the inventory.
+ 
+ Parameters:
+ [IN]  wObjectID - object number of the item.
+ [IN]  iNum - number to be added (positive value) or removed (negative value).
+ 
+ Return value:
+ TRUE if succeeded, FALSE if failed.
+ --*/
+BOOL PAL_AddItemToInventory(WORD wObjectID, INT iNum)
 {
    int          index;
    BOOL         fFound;
@@ -675,24 +574,17 @@ PAL_AddItemToInventory(
    }
 }
 
-INT
-PAL_GetItemAmount(
-   WORD        wItem
-)
+
 /*++
-  Purpose:
-
-    Get the amount of the specified item in the inventory.
-
-  Parameters:
-
+ Get the amount of the specified item in the inventory.
+ 
+ Parameters:
     [IN]  wItem - the object ID of the item.
 
-  Return value:
-
+ Return value:
     The amount of the item in the inventory.
-
---*/
+ --*/
+INT PAL_GetItemAmount(WORD wItem)
 {
    int i;
 
@@ -712,24 +604,11 @@ PAL_GetItemAmount(
    return 0;
 }
 
-VOID
-PAL_CompressInventory(
-   VOID
-)
+
 /*++
-  Purpose:
-
-    Remove all the items in inventory which has a number of zero.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Remove all the items in inventory which has a number of zero.
+ --*/
+VOID PAL_CompressInventory(void)
 {
    int i, j;
 
@@ -757,32 +636,20 @@ PAL_CompressInventory(
    }
 }
 
-BOOL
-PAL_IncreaseHPMP(
-   WORD          wPlayerRole,
-   SHORT         sHP,
-   SHORT         sMP
-)
+
+
 /*++
-  Purpose:
-
-    Increase or decrease player's HP and/or MP.
-
-  Parameters:
-
+ Increase or decrease player's HP and/or MP.
+ 
+ Parameters:
     [IN]  wPlayerRole - the number of player role.
-
-    [IN]  sHP - number of HP to be increased (positive value) or decrased
-                (negative value).
-
-    [IN]  sMP - number of MP to be increased (positive value) or decrased
-                (negative value).
-
-  Return value:
-
+    [IN]  sHP - number of HP to be increased (positive value) or decrased (negative value).
+    [IN]  sMP - number of MP to be increased (positive value) or decrased (negative value).
+ 
+ Return value:
     TRUE if the operation is succeeded, FALSE if not.
-
---*/
+ --*/
+BOOL PAL_IncreaseHPMP(WORD wPlayerRole, SHORT sHP, SHORT sMP)
 {
    BOOL           fSuccess = FALSE;
 
@@ -829,24 +696,12 @@ PAL_IncreaseHPMP(
    return fSuccess;
 }
 
-VOID
-PAL_UpdateEquipments(
-   VOID
-)
+
+
 /*++
-  Purpose:
-
-    Update the effects of all equipped items for all players.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Update the effects of all equipped items for all players.
+ --*/
+VOID PAL_UpdateEquipments(void)
 {
    int      i, j;
    WORD     w;
@@ -868,27 +723,17 @@ PAL_UpdateEquipments(
    }
 }
 
-VOID
-PAL_RemoveEquipmentEffect(
-   WORD         wPlayerRole,
-   WORD         wEquipPart
-)
+
 /*++
-  Purpose:
-
-    Remove all the effects of the equipment for the player.
-
-  Parameters:
-
+ Purpose:
+ 
+ Remove all the effects of the equipment for the player.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role.
-
     [IN]  wEquipPart - the part of the equipment.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+VOID PAL_RemoveEquipmentEffect(WORD wPlayerRole, WORD wEquipPart)
 {
    WORD       *p;
    int         i, j;
@@ -955,27 +800,15 @@ PAL_RemoveEquipmentEffect(
    }
 }
 
-VOID
-PAL_AddPoisonForPlayer(
-   WORD           wPlayerRole,
-   WORD           wPoisonID
-)
+
 /*++
-  Purpose:
-
-    Add the specified poison to the player.
-
-  Parameters:
-
+ Add the specified poison to the player.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
     [IN]  wPoisonID - the poison to be added.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+VOID PAL_AddPoisonForPlayer(WORD wPlayerRole, WORD wPoisonID)
 {
    int         i, index;
    WORD        w;
@@ -1016,27 +849,15 @@ PAL_AddPoisonForPlayer(
    }
 }
 
-VOID
-PAL_CurePoisonByKind(
-   WORD           wPlayerRole,
-   WORD           wPoisonID
-)
+
 /*++
-  Purpose:
-
-    Remove the specified poison from the player.
-
-  Parameters:
-
+ Remove the specified poison from the player.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
     [IN]  wPoisonID - the poison to be removed.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+VOID PAL_CurePoisonByKind(WORD wPlayerRole, WORD wPoisonID)
 {
    int i, index;
 
@@ -1063,27 +884,15 @@ PAL_CurePoisonByKind(
    }
 }
 
-VOID
-PAL_CurePoisonByLevel(
-   WORD           wPlayerRole,
-   WORD           wMaxLevel
-)
+
 /*++
-  Purpose:
-
-    Remove the poisons which have a maximum level of wMaxLevel from the player.
-
-  Parameters:
-
+ Remove the poisons which have a maximum level of wMaxLevel from the player.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
     [IN]  wMaxLevel - the maximum level of poisons to be removed.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+VOID PAL_CurePoisonByLevel(WORD wPlayerRole, WORD wMaxLevel)
 {
    int        i, index;
    WORD       w;
@@ -1113,28 +922,19 @@ PAL_CurePoisonByLevel(
    }
 }
 
-BOOL
-PAL_IsPlayerPoisonedByLevel(
-   WORD           wPlayerRole,
-   WORD           wMinLevel
-)
+
 /*++
-  Purpose:
-
-    Check if the player is poisoned by poisons at a minimum level of wMinLevel.
-
-  Parameters:
-
+ Check if the player is poisoned by poisons at a minimum level of wMinLevel.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
     [IN]  wMinLevel - the minimum level of poison.
-
-  Return value:
-
+ 
+ Return value:
     TRUE if the player is poisoned by poisons at a minimum level of wMinLevel;
-    FALSE if not.
-
---*/
+    FALSE otherwise
+ --*/
+BOOL PAL_IsPlayerPoisonedByLevel(WORD wPlayerRole, WORD wMinLevel)
 {
    int         i, index;
    WORD        w;
@@ -1174,28 +974,19 @@ PAL_IsPlayerPoisonedByLevel(
    return FALSE;
 }
 
-BOOL
-PAL_IsPlayerPoisonedByKind(
-   WORD           wPlayerRole,
-   WORD           wPoisonID
-)
+
 /*++
-  Purpose:
-
-    Check if the player is poisoned by the specified poison.
-
-  Parameters:
-
+ Check if the player is poisoned by the specified poison.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
     [IN]  wPoisonID - the poison to be checked.
-
-  Return value:
-
+ 
+ Return value:
     TRUE if player is poisoned by the specified poison;
-    FALSE if not.
-
---*/
+    FALSE otherwise
+ --*/
+BOOL PAL_IsPlayerPoisonedByKind(WORD wPlayerRole, WORD wPoisonID)
 {
    int i, index;
 
@@ -1223,24 +1014,27 @@ PAL_IsPlayerPoisonedByKind(
    return FALSE;
 }
 
-WORD
-PAL_GetPlayerAttackStrength(
-   WORD           wPlayerRole
-)
+
+
+/**
+ @@@ - all properties:
+    ATK = attack,
+    INT = intelligence,
+    DEF = defense,
+    DEX = dexterity,
+    LUK = luck,
+    VIT = vitality => resistance to curse/poison
+ */
 /*++
-  Purpose:
-
-    Get the player's attack strength, count in the effect of equipments.
-
-  Parameters:
-
+ Get the player's attack strength, count in the effect of equipments.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
-  Return value:
-
+ 
+ Return value:
     The total attack strength of the player.
-
---*/
+ --*/
+WORD PAL_GetPlayerAttackStrength(WORD wPlayerRole)
 {
    WORD       w;
    int        i;
@@ -1255,24 +1049,17 @@ PAL_GetPlayerAttackStrength(
    return w;
 }
 
-WORD
-PAL_GetPlayerMagicStrength(
-   WORD           wPlayerRole
-)
+
 /*++
-  Purpose:
-
-    Get the player's magic strength, count in the effect of equipments.
-
-  Parameters:
-
+ Get the player's magic strength, count in the effect of equipments.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
-  Return value:
-
+ 
+ Return value:
     The total magic strength of the player.
-
---*/
+ --*/
+WORD PAL_GetPlayerMagicStrength(WORD wPlayerRole)
 {
    WORD       w;
    int        i;
@@ -1287,24 +1074,16 @@ PAL_GetPlayerMagicStrength(
    return w;
 }
 
-WORD
-PAL_GetPlayerDefense(
-   WORD           wPlayerRole
-)
 /*++
-  Purpose:
-
-    Get the player's defense value, count in the effect of equipments.
-
-  Parameters:
-
+ Get the player's defense value, count in the effect of equipments.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
-  Return value:
-
+ 
+ Return value:
     The total defense value of the player.
-
---*/
+ --*/
+WORD PAL_GetPlayerDefense(WORD wPlayerRole)
 {
    WORD       w;
    int        i;
@@ -1319,24 +1098,16 @@ PAL_GetPlayerDefense(
    return w;
 }
 
-WORD
-PAL_GetPlayerDexterity(
-   WORD           wPlayerRole
-)
 /*++
-  Purpose:
-
-    Get the player's dexterity, count in the effect of equipments.
-
-  Parameters:
-
+ Get the player's dexterity, count in the effect of equipments.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
-  Return value:
-
+ 
+ Return value:
     The total dexterity of the player.
-
---*/
+ --*/
+WORD PAL_GetPlayerDexterity(WORD wPlayerRole)
 {
    WORD       w;
    int        i;
@@ -1355,24 +1126,17 @@ PAL_GetPlayerDexterity(
    return w;
 }
 
-WORD
-PAL_GetPlayerFleeRate(
-   WORD           wPlayerRole
-)
+
 /*++
-  Purpose:
-
-    Get the player's flee rate, count in the effect of equipments.
-
-  Parameters:
-
+ Get the player's flee rate, count in the effect of equipments.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
-  Return value:
-
+ 
+ Return value:
     The total flee rate of the player.
-
---*/
+ --*/
+WORD PAL_GetPlayerFleeRate(WORD wPlayerRole)
 {
    WORD       w;
    int        i;
@@ -1387,24 +1151,17 @@ PAL_GetPlayerFleeRate(
    return w;
 }
 
-WORD
-PAL_GetPlayerPoisonResistance(
-   WORD           wPlayerRole
-)
+
 /*++
-  Purpose:
-
-    Get the player's resistance to poisons, count in the effect of equipments.
-
-  Parameters:
-
+ Get the player's resistance to poisons, count in the effect of equipments.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
-  Return value:
-
+ 
+ Return value:
     The total resistance to poisons of the player.
-
---*/
+ --*/
+WORD PAL_GetPlayerPoisonResistance(WORD wPlayerRole)
 {
    WORD       w;
    int        i;
@@ -1424,28 +1181,18 @@ PAL_GetPlayerPoisonResistance(
    return w;
 }
 
-WORD
-PAL_GetPlayerElementalResistance(
-   WORD           wPlayerRole,
-   INT            iAttrib
-)
+
 /*++
-  Purpose:
-
-    Get the player's resistance to attributed magics, count in the effect
-    of equipments.
-
-  Parameters:
-
+ Get the player's resistance to attributed magics, count in the effect of equipments.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
     [IN]  iAttrib - the attribute of magics.
-
-  Return value:
-
+ 
+ Return value:
     The total resistance to the attributed magics of the player.
-
---*/
+ --*/
+WORD PAL_GetPlayerElementalResistance(WORD wPlayerRole, INT iAttrib)
 {
    WORD       w;
    int        i;
@@ -1465,24 +1212,16 @@ PAL_GetPlayerElementalResistance(
    return w;
 }
 
-WORD
-PAL_GetPlayerBattleSprite(
-   WORD             wPlayerRole
-)
 /*++
-  Purpose:
-
-    Get player's battle sprite.
-
-  Parameters:
-
+ Get player's battle sprite.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
-  Return value:
-
+ 
+ Return value:
     Number of the player's battle sprite.
-
---*/
+ --*/
+WORD PAL_GetPlayerBattleSprite(WORD wPlayerRole)
 {
    int       i;
    WORD      w;
@@ -1500,24 +1239,17 @@ PAL_GetPlayerBattleSprite(
    return w;
 }
 
-WORD
-PAL_GetPlayerCooperativeMagic(
-   WORD             wPlayerRole
-)
+
 /*++
-  Purpose:
-
-    Get player's cooperative magic.
-
-  Parameters:
-
+ Get player's cooperative magic.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
-  Return value:
-
+ 
+ Return value:
     Object ID of the player's cooperative magic.
-
---*/
+ --*/
+WORD PAL_GetPlayerCooperativeMagic(WORD wPlayerRole)
 {
    int       i;
    WORD      w;
@@ -1535,24 +1267,17 @@ PAL_GetPlayerCooperativeMagic(
    return w;
 }
 
-BOOL
-PAL_PlayerCanAttackAll(
-   WORD        wPlayerRole
-)
+
 /*++
-  Purpose:
-
-    Check if the player can attack all of the enemies in one move.
-
-  Parameters:
-
+ Check if the player can attack all of the enemies in one move.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
-  Return value:
-
+ 
+ Return value:
     TRUE if player can attack all of the enemies in one move, FALSE if not.
-
---*/
+ --*/
+BOOL PAL_PlayerCanAttackAll(WORD wPlayerRole)
 {
    int       i;
    BOOL      f;
@@ -1571,27 +1296,18 @@ PAL_PlayerCanAttackAll(
    return f;
 }
 
-BOOL
-PAL_AddMagic(
-   WORD           wPlayerRole,
-   WORD           wMagic
-)
+
 /*++
-  Purpose:
-
-    Add a magic to the player.
-
-  Parameters:
-
+ Add a magic to the player.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
     [IN]  wMagic - the object ID of the magic.
-
-  Return value:
-
+ 
+ Return value:
     TRUE if succeeded, FALSE if failed.
-
---*/
+ --*/
+BOOL PAL_AddMagic(WORD wPlayerRole, WORD wMagic)
 {
    int            i;
 
@@ -1626,27 +1342,14 @@ PAL_AddMagic(
    return TRUE;
 }
 
-VOID
-PAL_RemoveMagic(
-   WORD           wPlayerRole,
-   WORD           wMagic
-)
 /*++
-  Purpose:
-
-    Remove a magic to the player.
-
-  Parameters:
-
+ Remove a magic to the player.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player role ID.
-
     [IN]  wMagic - the object ID of the magic.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+VOID PAL_RemoveMagic(WORD wPlayerRole, WORD wMagic)
 {
    int            i;
 
@@ -1660,30 +1363,16 @@ PAL_RemoveMagic(
    }
 }
 
-VOID
-PAL_SetPlayerStatus(
-   WORD         wPlayerRole,
-   WORD         wStatusID,
-   WORD         wNumRound
-)
+
 /*++
-  Purpose:
-
-    Set one of the statuses for the player.
-
-  Parameters:
-
+ Set one of the statuses for the player.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player ID.
-
     [IN]  wStatusID - the status to be set.
-
     [IN]  wNumRound - the effective rounds of the status.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+VOID PAL_SetPlayerStatus(WORD wPlayerRole, WORD wStatusID, WORD wNumRound)
 {
 #ifndef PAL_CLASSIC
    if (wStatusID == kStatusSlow &&
@@ -1758,27 +1447,15 @@ PAL_SetPlayerStatus(
    }
 }
 
-VOID
-PAL_RemovePlayerStatus(
-   WORD         wPlayerRole,
-   WORD         wStatusID
-)
+
 /*++
-  Purpose:
-
-    Remove one of the status for player.
-
-  Parameters:
-
+ Remove one of the status for player.
+ 
+ Parameters:
     [IN]  wPlayerRole - the player ID.
-
     [IN]  wStatusID - the status to be set.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+VOID PAL_RemovePlayerStatus(WORD wPlayerRole, WORD wStatusID)
 {
    //
    // Don't remove effects of equipments
@@ -1789,24 +1466,10 @@ PAL_RemovePlayerStatus(
    }
 }
 
-VOID
-PAL_ClearAllPlayerStatus(
-   VOID
-)
 /*++
-  Purpose:
-
-    Clear all player status.
-
-  Parameters:
-
-    None.
-
-  Return value:
-
-    None.
-
---*/
+ Clear all player status.
+ --*/
+VOID PAL_ClearAllPlayerStatus(void)
 {
    int      i, j;
 
@@ -1825,27 +1488,15 @@ PAL_ClearAllPlayerStatus(
    }
 }
 
-VOID
-PAL_PlayerLevelUp(
-   WORD          wPlayerRole,
-   WORD          wNumLevel
-)
+
 /*++
-  Purpose:
-
-    Increase the player's level by wLevels.
-
-  Parameters:
-
+ Increase the player's level by wLevels.
+ 
+ Parameters:
     [IN]  wPlayerRole - player role ID.
-
     [IN]  wNumLevel - number of levels to be increased.
-
-  Return value:
-
-    None.
-
---*/
+ --*/
+VOID PAL_PlayerLevelUp(WORD wPlayerRole, WORD wNumLevel)
 {
    WORD          i;
 

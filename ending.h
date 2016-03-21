@@ -26,37 +26,19 @@
 extern "C"
 {
 #endif
-
-VOID
-PAL_EndingSetEffectSprite(
-   WORD         wSpriteNum
-);
-
-VOID
-PAL_ShowFBP(
-   WORD         wChunkNum,
-   WORD         wFade
-);
-
-VOID
-PAL_ScrollFBP(
-   WORD         wChunkNum,
-   WORD         wScrollSpeed,
-   BOOL         fScrollDown
-);
-
-VOID
-PAL_EndingAnimation(
-   VOID
-);
-
+    
+    VOID PAL_EndingSetEffectSprite(WORD wSpriteNum);
+    
+    VOID PAL_ShowFBP(WORD wChunkNum, WORD wFade);
+    
+    VOID PAL_ScrollFBP(WORD wChunkNum, WORD wScrollSpeed, BOOL fScrollDown);
+    
+    VOID PAL_EndingAnimation(void);
+    
 #ifdef PAL_WIN95
-VOID
-PAL_EndingScreen(
-   VOID
-);
+    VOID PAL_EndingScreen(void);
 #endif
-
+    
 #ifdef __cplusplus
 }
 #endif

@@ -88,7 +88,10 @@ VOID
 PAL_EquipItemMenu(
    WORD           wItem
 );
-
+    
+INT PALX_CountMenu(INT iMaxCount);
+    WORD PALX_NumberSelectBox2(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged, LPMENUITEM rgMenuItem, INT iMaxCount);
+    
 #ifdef __cplusplus
 }
 #endif
