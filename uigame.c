@@ -2005,7 +2005,10 @@ WORD PALX_NumberSelectBox2(LPCOUNTBOXCHANGED_CALLBACK lpfnCountBoxChanged, LPMEN
             {
                 wCurrentCount = 1;
             }
-            
+            if (lpfnCountBoxChanged != NULL)
+            {
+                (*lpfnCountBoxChanged)(wCurrentCount);
+            }
         }
         else if (g_InputState.dwKeyPress & kKeyLeft)
         {
