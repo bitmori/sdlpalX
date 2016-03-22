@@ -823,6 +823,7 @@ PAL_BattleUIUpdate(
             MENUITEM_COLOR_CONFIRMED, TRUE, FALSE);
       }
    }
+    
 
    if (gpGlobals->fAutoBattle)
    {
@@ -1890,7 +1891,10 @@ VOID PALX_EnemyStatus(void)
             PAL_DrawText(PAL_GetWord(be.e.wAttackEquivItem), PAL_XY(x + 32, y + i * h - 5), MENUITEM_COLOR_CONFIRMED, TRUE, FALSE);
         }
         for (unsigned int elem = 0; elem < NUM_MAGIC_ELEMENTAL; elem++) {
-            PAL_DrawNumber(be.e.wElemResistance[elem]*10, 3, PAL_XY(9 + elem * 16 - 6, 6 + (i+2) * h + (elem % 2) * 8), kNumColorYellow, kNumAlignRight);
+            int _x = 9 + elem * 16 - 6;
+            PAL_DrawNumber(be.e.wElemResistance[elem]*10, 3, PAL_XY(_x, 6 + (i+2) * h + (elem % 2) * 8), kNumColorYellow, kNumAlignRight);
+            PAL_DrawNumber((10+(gpGlobals->g.lprgBattleField[gpGlobals->wNumBattleField].rgsMagicEffect[elem])), 2, PAL_XY(_x + 9 + 16*5 + elem, 185), kNumColorCyan, kNumAlignMid);
+            PAL_RLEBlitToSurface(PAL_SpriteGetFrame(gpSpriteUI, SPRITENUM_SLASH), gpScreen, PAL_XY(_x + 6+16*5 +14 + elem, 185));
         }
         
         PAL_DrawText(PAL_GetWord(CASH_LABEL), PAL_XY(283, 180), MENUITEM_COLOR, TRUE, FALSE);
