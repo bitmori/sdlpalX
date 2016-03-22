@@ -1876,11 +1876,11 @@ VOID PALX_EnemyStatus(void)
             PAL_DrawNumber(be.e.wElemResistance[elem]*10, 3, PAL_XY(9 + elem * 16 - 6, 6 + (i+2) * h + (elem % 2) * 8), kNumColorYellow, kNumAlignRight);
         }
         
-        PAL_DrawText(PAL_GetWord(CASH_LABEL), PAL_XY(280, 6), MENUITEM_COLOR, TRUE, FALSE);
-        PAL_DrawNumber(be.e.wCash, 6, PAL_XY(276, 23), kNumColorYellow, kNumAlignRight);
+        PAL_DrawText(PAL_GetWord(CASH_LABEL), PAL_XY(283, 180), MENUITEM_COLOR, TRUE, FALSE);
+        PAL_DrawNumber(be.e.wCash, 6, PAL_XY(244, 185), kNumColorYellow, kNumAlignRight);
         PAL_DrawText(PAL_GetWord(be.wObjectID), PAL_XY(120, 6), MENUITEM_COLOR_CONFIRMED, TRUE, FALSE);
         
-        PAL_DrawNumber(iCurrent + 1, 1, PAL_XY(300, 180), kNumColorYellow, kNumAlignRight);
+        PAL_DrawNumber(iCurrent + 1, 1, PAL_XY(110, 11), kNumColorYellow, kNumAlignRight);
         
         //
         // Draw all poisons
@@ -1928,7 +1928,7 @@ VOID PALX_EnemyStatus(void)
                         break;
                     }
                     be = g_Battle.rgEnemy[iCurrent];
-                } while (be.wObjectID == 0 && be.wPrevHP == 0);
+                } while (be.wObjectID == 0 && be.e.wHealth == 0);
                 break;
             }
             else if (g_InputState.dwKeyPress & (kKeyRight | kKeyDown | kKeySearch))
@@ -1941,7 +1941,7 @@ VOID PALX_EnemyStatus(void)
                         break;
                     }
                     be = g_Battle.rgEnemy[iCurrent];
-                } while (be.wObjectID == 0 && be.wPrevHP == 0);
+                } while (be.wObjectID == 0 && be.e.wHealth == 0);
                 break;
             }
         }
