@@ -57,6 +57,12 @@ typedef enum tagBATTLEUIACTION
    kBattleUIActionMisc,
 } BATTLEUIACTION;
 
+#ifdef PALX_SHOW_ENEMY_STATUS
+    #define BATTLEUI_MISC_ITEMS 6
+#else
+    #define BATTLEUI_MISC_ITEMS 5
+#endif
+
 #define SPRITENUM_BATTLEICON_ATTACK      40
 #define SPRITENUM_BATTLEICON_MAGIC       41
 #define SPRITENUM_BATTLEICON_COOPMAGIC   42
@@ -74,6 +80,8 @@ typedef enum tagBATTLEUIACTION
 #define BATTLEUI_LABEL_INVENTORY         57
 #define BATTLEUI_LABEL_FLEE              59
 #define BATTLEUI_LABEL_STATUS            60
+#define BATTLEUI_LABEL_ENEMYINFO      (PAL_ADDITIONAL_WORD_FIRST + 7)
+
 
 #define BATTLEUI_LABEL_USEITEM           23
 #define BATTLEUI_LABEL_THROWITEM         24
@@ -146,6 +154,10 @@ PAL_BattleUIShowNum(
    PAL_POS        pos,
    NUMCOLOR       color
 );
+    
+#ifdef PALX_SHOW_ENEMY_STATUS
+VOID PALX_EnemyStatus(void);
+#endif
 
 #ifdef __cplusplus
 }

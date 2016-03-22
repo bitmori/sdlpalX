@@ -85,8 +85,9 @@ extern "C"
 #define BATTLESPEEDMENU_LABEL_5            (PAL_ADDITIONAL_WORD_FIRST + 5)
 
 
-// @@@ - Amount
-#define ITEMMENU_LABEL_AMOUNT              (PAL_ADDITIONAL_WORD_FIRST+6)
+// @@@ - PALX additional words
+#define ITEMMENU_LABEL_AMOUNT              (PAL_ADDITIONAL_WORD_FIRST + 6)
+    
 
     
 #define INVMENU_LABEL_USE                  23
@@ -102,6 +103,13 @@ extern "C"
 #define STATUS_LABEL_RESISTANCE            53
 #define STATUS_LABEL_DEXTERITY             54
 #define STATUS_LABEL_FLEERATE              55
+    
+#define STATUS_LABEL_POISONDEF             (PAL_ADDITIONAL_WORD_FIRST + 8)
+#define STATUS_LABEL_MONSTERPOWER          (PAL_ADDITIONAL_WORD_FIRST + 9)
+#define STATUS_LABEL_STEALITEM             (PAL_ADDITIONAL_WORD_FIRST + 10)
+#define STATUS_LABEL_ATKEFFECT             (PAL_ADDITIONAL_WORD_FIRST + 11)
+#define STATUS_LABEL_5ELEM                 (PAL_ADDITIONAL_WORD_FIRST + 12)
+    
 #define STATUS_COLOR_EQUIPMENT             0xBE
 
 #define BUYMENU_LABEL_CURRENT              35

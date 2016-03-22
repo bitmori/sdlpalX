@@ -94,7 +94,7 @@ extern "C"
         WORD               wScriptOnReady;
         
         WORD               wPrevHP;              // HP value prior to action
-        
+        DWORD              dwMaxHealth;           // for showing in enemy info
         INT                iColorShift;
     } BATTLEENEMY;
     

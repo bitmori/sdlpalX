@@ -1959,10 +1959,6 @@ VIDEO_UpdateScreen(&rect);                                                      
                 wCurrentCount = iMaxCount;
             }
             UPDATE_BOX();
-//            PAL_CreateSingleLineBox(posBox, 6, FALSE);
-//            PAL_DrawText(PAL_GetWord(wNumWord), posTag, 0, FALSE, FALSE);
-//            PAL_DrawNumber(wCurrentCount, 6, posNumber, kNumColorYellow, kNumAlignRight);
-//            VIDEO_UpdateScreen(&rect);
         }
         else if (g_InputState.dwKeyPress & kKeyDown)
         {

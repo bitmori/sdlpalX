@@ -23,11 +23,11 @@
 
 BATTLE          g_Battle;
 
-WORD
-g_rgPlayerPos[3][3][2] = {
-    {{240, 170}},                         // one player
-    {{200, 176}, {256, 152}},             // two players
-    {{180, 180}, {234, 170}, {270, 146}}  // three players
+WORD g_rgPlayerPos[3][3][2] = {
+    {{240, 170}},                                       // one player
+    {{200, 176}, {256, 152}},                           // two players
+    {{180, 180}, {234, 170}, {270, 146}},               // three players
+    //{{160, 180}, {217, 175}, {255, 155}, {285, 135}}    //four players
 };
 
 /*++
@@ -965,7 +965,12 @@ VOID PAL_BattlePlayerEscape(void)
                         PAL_XY(PAL_X(g_Battle.rgPlayer[j].pos) + 6,
                                PAL_Y(g_Battle.rgPlayer[j].pos) + 3);
                         break;
-                        
+// @@@ - extra 4th role:
+//                    case 3:
+//                        g_Battle.rgPlayer[j].pos =
+//                        PAL_XY(PAL_X(g_Battle.rgPlayer[j].pos) + 6,
+//                               PAL_Y(g_Battle.rgPlayer[j].pos) + 3);
+//                        break;
                     default:
                         assert(FALSE); // Not possible
                         break;
@@ -1067,6 +1072,7 @@ BATTLERESULT PAL_StartBattle(WORD wEnemyTeam, BOOL fIsBoss)
             g_Battle.rgEnemy[i].wScriptOnBattleEnd = gpGlobals->g.rgObject[w].enemy.wScriptOnBattleEnd;
             g_Battle.rgEnemy[i].wScriptOnReady = gpGlobals->g.rgObject[w].enemy.wScriptOnReady;
             g_Battle.rgEnemy[i].iColorShift = 0;
+            g_Battle.rgEnemy[i].dwMaxHealth = g_Battle.rgEnemy[i].e.wHealth;
             
 #ifndef PAL_CLASSIC
             g_Battle.rgEnemy[i].flTimeMeter = 50;
