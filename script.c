@@ -1333,7 +1333,6 @@ static WORD PAL_InterpretInstruction(WORD wScriptEntry, WORD wEventObjectID)
             // @@@ HULU is here
             if (gpGlobals->wCollectValue > 0)
             {
-                gpGlobals->wCollectValue = 99;
 #ifndef PALX_PURIFY_MONSTER
                 char s[256];
 #endif
@@ -1898,7 +1897,9 @@ static WORD PAL_InterpretInstruction(WORD wScriptEntry, WORD wEventObjectID)
             //
             // Steal from the enemy
             //
-            PAL_BattleStealFromEnemy(wEventObjectID, pScript->rgwOperand[0]);
+            //PAL_BattleStealFromEnemy(wEventObjectID, pScript->rgwOperand[0]);
+            // @@@ - 100% chance that we can steal from the enemy!
+            PAL_BattleStealFromEnemy(wEventObjectID, 10);
             break;
             
         case 0x006B:

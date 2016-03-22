@@ -41,7 +41,7 @@ extern "C"
 //
 
 // maximum number of players in party
-#define     MAX_PLAYERS_IN_PARTY         3
+#define     MAX_PLAYERS_IN_PARTY         4
 
 // total number of possible player roles
 #define     MAX_PLAYER_ROLES             6

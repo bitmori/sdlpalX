@@ -21,7 +21,7 @@
 
 #include "main.h"
 
-extern WORD g_rgPlayerPos[3][3][2];
+extern WORD g_rgPlayerPos[4][4][2];
 
 static int g_iCurMiscMenuItem = 0;
 static int g_iCurSubMenuItem = 0;
@@ -910,8 +910,19 @@ PAL_BattleUIUpdate(
             w = 0;
          }
 
-         PAL_PlayerInfoBox(PAL_XY(91 + 77 * i, 165), wPlayerRole,
-            w, j, FALSE);
+          if (gpGlobals->wMaxPartyMemberIndex >= 3)
+          {
+//              if (i > 3)
+//              {
+//                  PAL_PlayerInfoBox(PAL_XY(91 + 77 * 2, 165 - (i - 3) * 38), wPlayerRole, w, j, FALSE);
+//                  continue;
+//              }
+              
+              PAL_PlayerInfoBox(PAL_XY(14 + 77 * i, 165), wPlayerRole, w, j, FALSE);
+              continue;
+          }
+          
+         PAL_PlayerInfoBox(PAL_XY(91 + 77 * i, 165), wPlayerRole, w, j, FALSE);
       }
    }
 
@@ -1028,7 +1039,13 @@ PAL_BattleUIUpdate(
             {SPRITENUM_BATTLEICON_COOPMAGIC, PAL_XY(54, 155), kBattleUIActionCoopMagic},
             {SPRITENUM_BATTLEICON_MISCMENU,  PAL_XY(27, 170), kBattleUIActionMisc}
          };
-
+          if (gpGlobals->wMaxPartyMemberIndex >= 3)
+          {
+              for (i = 0; i < 4; i++)
+              {
+                  rgItems[i].pos -= (37 << 16);
+              }
+          }
          if (g_Battle.UI.MenuState == kBattleMenuMain)
          {
             if (g_InputState.dir == kDirNorth)
@@ -1852,8 +1869,8 @@ VOID PALX_EnemyStatus(void)
         h = 19;
         PAL_DrawNumber(be.e.wExp, 5, PAL_XY(x + 16, y + (i++) * h), kNumColorYellow, kNumAlignRight);
         PAL_DrawNumber(be.e.wLevel, 3, PAL_XY(x + 6, y + (i++) * h), kNumColorYellow, kNumAlignRight);
-        PAL_DrawNumber(be.e.wHealth, 5, PAL_XY(x, y + (i++) * h), kNumColorYellow, kNumAlignRight);
-        //体力、体力最大值的分隔符“/”
+        PAL_DrawNumber(be.e.wHealth, 5, PAL_XY(x, y + (i++) * h), (be.e.wHealth * 4) < be.dwMaxHealth ? kNumColorCyan : kNumColorYellow, kNumAlignRight);
+        // put "/" between HP and MaxHP
         PAL_RLEBlitToSurface(PAL_SpriteGetFrame(gpSpriteUI, SPRITENUM_SLASH), gpScreen, PAL_XY(x + 29, y + (i - 1) * h));
         PAL_DrawNumber(be.dwMaxHealth, 5, PAL_XY(x + 26, y + (i - 1) * h + 5), kNumColorBlue, kNumAlignRight);
         
