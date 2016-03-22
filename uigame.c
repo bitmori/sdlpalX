@@ -1572,7 +1572,7 @@ PAL_BuyMenu(WORD wStoreNum)
         }
         
         INT iMaxCount = gpGlobals->dwCash / gpGlobals->g.rgObject[w].item.wPrice;
-        INT iItemAmountBuyable = 99 - gpGlobals->rgInventory[w].nAmount;
+        INT iItemAmountBuyable = 99 - PALX_FindItemAmount(w);
         iMaxCount = (iMaxCount >= iItemAmountBuyable) ? iItemAmountBuyable : iMaxCount;
         if (iMaxCount >= 1)
         {
@@ -1630,6 +1630,21 @@ PAL_SellMenu_OnItemChange(WORD wCurrentItem)
     }
 }
 
+INT PALX_FindItemAmount(WORD wCurrentItem)
+{
+    for (unsigned int i = 0; i < MAX_INVENTORY; i++)
+    {
+        if (gpGlobals->rgInventory[i].wItem == 0)
+        {
+            return 0;
+        }
+        else if (gpGlobals->rgInventory[i].wItem == wCurrentItem)
+        {
+            return gpGlobals->rgInventory[i].nAmount;
+        }
+    }
+    return 0;
+}
 
 /*++
  Show the sell item menu.
@@ -2016,3 +2031,164 @@ VIDEO_UpdateScreen(&rect);                                                      
 #undef UPDATE_BOX
     return MENUITEM_VALUE_CANCELLED;
 }
+
+#ifdef PALX_PURIFY_MONSTER
+static VOID
+PAL_PurifyMonsterMenu_OnItemChange(WORD wCurrentItem)
+{
+    const SDL_Rect      rect = {20, 8, 128, 175};
+    int                 i, n;
+    PAL_LARGE BYTE      bufImage[2048];
+    
+    //
+    // Draw the picture of current selected item
+    //
+    PAL_RLEBlitToSurface(PAL_SpriteGetFrame(gpSpriteUI, SPRITENUM_ITEMBOX), gpScreen,
+                         PAL_XY(35, 8));
+    
+    if (PAL_MKFReadChunk(bufImage, 2048,
+                         gpGlobals->g.rgObject[wCurrentItem].item.wBitmap, gpGlobals->f.fpBALL) > 0)
+    {
+        PAL_RLEBlitToSurface(bufImage, gpScreen, PAL_XY(42, 16));
+    }
+    
+    //
+    // See how many of this item we have in the inventory
+    //
+    n = 0;
+    
+    for (i = 0; i < MAX_INVENTORY; i++)
+    {
+        if (gpGlobals->rgInventory[i].wItem == 0)
+        {
+            break;
+        }
+        else if (gpGlobals->rgInventory[i].wItem == wCurrentItem)
+        {
+            n = gpGlobals->rgInventory[i].nAmount;
+            break;
+        }
+    }
+    
+    //
+    // Draw the amount of this item in the inventory
+    //
+    PAL_CreateSingleLineBox(PAL_XY(20, 105), 5, FALSE);
+    PAL_DrawText(PAL_GetWord(BUYMENU_LABEL_CURRENT), PAL_XY(30, 115), 0, FALSE, FALSE);
+    PAL_DrawNumber(n, 6, PAL_XY(69, 119), kNumColorYellow, kNumAlignRight);
+    
+    //
+    // Draw the cash amount
+    //
+    PAL_CreateSingleLineBox(PAL_XY(20, 145), 5, FALSE);
+    PAL_DrawText(PAL_GetWord(STATUS_LABEL_MONSTERPOWER), PAL_XY(30, 155), 0, FALSE, FALSE);
+    PAL_DrawNumber(gpGlobals->wCollectValue, 6, PAL_XY(69, 159), kNumColorYellow, kNumAlignRight);
+    
+    VIDEO_UpdateScreen(&rect);
+}
+
+INT PALX_FindItemInPurifyMenu(WORD wCurrentItem)
+{
+    int i;
+    for (i = 0; i < MAX_STORE_ITEM; i++)
+    {
+        if (gpGlobals->g.lprgStore[0].rgwItems[i] == 0)
+        {
+            break;
+        }
+        
+        if (gpGlobals->g.lprgStore[0].rgwItems[i] == wCurrentItem)
+        {
+            return i;
+        }
+    }
+    
+    return -1;
+}
+
+VOID PALX_PurifyMonsterMenu(void) {
+    MENUITEM        rgMenuItem[MAX_STORE_ITEM];
+    int             i, y;
+    WORD            w;
+    SDL_Rect        rect = {125, 8, 190, 190};
+    
+    //
+    // create the menu items
+    //
+    y = 22;
+    
+    for (i = 0; i < MAX_STORE_ITEM; i++)
+    {
+        if (gpGlobals->g.lprgStore[0].rgwItems[i] == 0)
+        {
+            break;
+        }
+        
+        rgMenuItem[i].wValue = gpGlobals->g.lprgStore[0].rgwItems[i];
+        rgMenuItem[i].wNumWord = gpGlobals->g.lprgStore[0].rgwItems[i];
+        rgMenuItem[i].fEnabled = TRUE;
+        rgMenuItem[i].pos = PAL_XY(150, y);
+        
+        y += 18;
+    }
+    
+    //
+    // Draw the box
+    //
+    PAL_CreateBox(PAL_XY(125, 8), 8, 8, 1, FALSE);
+    
+    //
+    // Draw the number of prices
+    //
+    for (y = 0; y < i; y++)
+    {
+        PAL_DrawNumber(y+1, 6, PAL_XY(235, 25 + y * 18), kNumColorCyan, kNumAlignRight);
+    }
+    
+    VIDEO_UpdateScreen(&rect);
+    
+    w = 0;
+    
+    while (TRUE)
+    {
+        w = PAL_ReadMenu(PAL_PurifyMonsterMenu_OnItemChange, rgMenuItem, i, w, MENUITEM_COLOR);
+        
+        if (w == MENUITEM_VALUE_CANCELLED)
+        {
+            break;
+        }
+        
+        int iValue = PALX_FindItemInPurifyMenu(w) + 1;
+        if (iValue > 0 && iValue <= 9)
+        {
+            INT iMaxCount = gpGlobals->wCollectValue / iValue;
+            INT iItemAmountBuyable = 99 - PALX_FindItemAmount(w);
+            iMaxCount = (iMaxCount >= iItemAmountBuyable) ? iItemAmountBuyable : iMaxCount;
+            if (iMaxCount >= 1)
+            {
+                INT iItemCount = PALX_CountMenu(iMaxCount);
+                if (iItemCount != 0)
+                {
+                    //
+                    // Player purified the monster value -> item
+                    //
+                    gpGlobals->wCollectValue -= (iValue)*iItemCount;
+                    PAL_AddItemToInventory(w, iItemCount);
+                }
+            }
+        }
+
+        //
+        // Place the cursor to the current item on next loop
+        //
+        for (y = 0; y < i; y++)
+        {
+            if (w == rgMenuItem[y].wValue)
+            {
+                w = y;
+                break;
+            }
+        }
+    }
+}
+#endif

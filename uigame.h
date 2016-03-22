@@ -88,10 +88,15 @@ VOID
 PAL_EquipItemMenu(
    WORD           wItem
 );
-    
+
+INT PALX_FindItemAmount(WORD wCurrentItem);
 INT PALX_CountMenu(INT iMaxCount);
 INT PALX_NumberSelectBox(WORD wNumWord, INT iMaxCount);
-    
+
+#ifdef PALX_PURIFY_MONSTER
+VOID PALX_PurifyMonsterMenu(void);
+#endif
+
 #ifdef __cplusplus
 }
 #endif

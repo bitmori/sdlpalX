@@ -1330,10 +1330,14 @@ static WORD PAL_InterpretInstruction(WORD wScriptEntry, WORD wEventObjectID)
             //
             // Transform collected enemies into items
             //
+            // @@@ HULU is here
             if (gpGlobals->wCollectValue > 0)
             {
+                gpGlobals->wCollectValue = 99;
+#ifndef PALX_PURIFY_MONSTER
                 char s[256];
-                
+#endif
+
 #ifdef PAL_CLASSIC
                 i = RandomLong(1, gpGlobals->wCollectValue);
                 if (i > 9)
@@ -1347,7 +1351,10 @@ static WORD PAL_InterpretInstruction(WORD wScriptEntry, WORD wEventObjectID)
                     i = gpGlobals->wCollectValue;
                 }
 #endif
-                
+
+#ifdef PALX_PURIFY_MONSTER
+                PALX_PurifyMonsterMenu();
+#else
                 gpGlobals->wCollectValue -= i;
                 i--;
                 
@@ -1357,6 +1364,7 @@ static WORD PAL_InterpretInstruction(WORD wScriptEntry, WORD wEventObjectID)
                 strcpy(s, PAL_GetWord(42));
                 strcat(s, PAL_GetWord(gpGlobals->g.lprgStore[0].rgwItems[i]));
                 PAL_ShowDialogText(s);
+#endif
             }
             else
             {
