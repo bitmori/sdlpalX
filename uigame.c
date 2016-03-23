@@ -1284,26 +1284,27 @@ PAL_ItemUseMenu(
         //
         // Draw the box
         //
-        PAL_CreateBox(PAL_XY(110, 2), 7, 9, 0, FALSE);
+        PAL_CreateBox(PAL_XY(110, 2), 8, 9, 0, FALSE);
         
         //
         // Draw the stats of the selected player
         //
-        PAL_DrawText(PAL_GetWord(STATUS_LABEL_LEVEL), PAL_XY(200, 16),
+        int y = 16, j = 0;
+        PAL_DrawText(PAL_GetWord(STATUS_LABEL_LEVEL), PAL_XY(200, y + 18 * j++),
                      ITEMUSEMENU_COLOR_STATLABEL, TRUE, FALSE);
-        PAL_DrawText(PAL_GetWord(STATUS_LABEL_HP), PAL_XY(200, 34),
+        PAL_DrawText(PAL_GetWord(STATUS_LABEL_HP), PAL_XY(200, y + 18 * j++),
                      ITEMUSEMENU_COLOR_STATLABEL, TRUE, FALSE);
-        PAL_DrawText(PAL_GetWord(STATUS_LABEL_MP), PAL_XY(200, 52),
+        PAL_DrawText(PAL_GetWord(STATUS_LABEL_MP), PAL_XY(200, y + 18 * j++),
                      ITEMUSEMENU_COLOR_STATLABEL, TRUE, FALSE);
-        PAL_DrawText(PAL_GetWord(STATUS_LABEL_ATTACKPOWER), PAL_XY(200, 70),
+        PAL_DrawText(PAL_GetWord(STATUS_LABEL_ATTACKPOWER), PAL_XY(200, y + 18 * j++),
                      ITEMUSEMENU_COLOR_STATLABEL, TRUE, FALSE);
-        PAL_DrawText(PAL_GetWord(STATUS_LABEL_MAGICPOWER), PAL_XY(200, 88),
+        PAL_DrawText(PAL_GetWord(STATUS_LABEL_MAGICPOWER), PAL_XY(200, y + 18 * j++),
                      ITEMUSEMENU_COLOR_STATLABEL, TRUE, FALSE);
-        PAL_DrawText(PAL_GetWord(STATUS_LABEL_RESISTANCE), PAL_XY(200, 106),
+        PAL_DrawText(PAL_GetWord(STATUS_LABEL_RESISTANCE), PAL_XY(200, y + 18 * j++),
                      ITEMUSEMENU_COLOR_STATLABEL, TRUE, FALSE);
-        PAL_DrawText(PAL_GetWord(STATUS_LABEL_DEXTERITY), PAL_XY(200, 124),
+        PAL_DrawText(PAL_GetWord(STATUS_LABEL_DEXTERITY), PAL_XY(200, y + 18 * j++),
                      ITEMUSEMENU_COLOR_STATLABEL, TRUE, FALSE);
-        PAL_DrawText(PAL_GetWord(STATUS_LABEL_FLEERATE), PAL_XY(200, 142),
+        PAL_DrawText(PAL_GetWord(STATUS_LABEL_FLEERATE), PAL_XY(200, y + 18 * j++),
                      ITEMUSEMENU_COLOR_STATLABEL, TRUE, FALSE);
         
         i = gpGlobals->rgParty[wSelectedPlayer].wPlayerRole;
@@ -1355,7 +1356,7 @@ PAL_ItemUseMenu(
         }
         
         PAL_RLEBlitToSurface(PAL_SpriteGetFrame(gpSpriteUI, SPRITENUM_ITEMBOX), gpScreen,
-                             PAL_XY(120, 80));
+                             PAL_XY(120, 80+20));
         
         i = PAL_GetItemAmount(wItemToUse);
         
@@ -1367,15 +1368,15 @@ PAL_ItemUseMenu(
             if (PAL_MKFReadChunk(bufImage, 2048,
                                  gpGlobals->g.rgObject[wItemToUse].item.wBitmap, gpGlobals->f.fpBALL) > 0)
             {
-                PAL_RLEBlitToSurface(bufImage, gpScreen, PAL_XY(127, 88));
+                PAL_RLEBlitToSurface(bufImage, gpScreen, PAL_XY(127, 88+20));
             }
             
             //
             // Draw the amount and label of the item
             //
-            PAL_DrawText(PAL_GetWord(wItemToUse), PAL_XY(116, 143), STATUS_COLOR_EQUIPMENT,
+            PAL_DrawText(PAL_GetWord(wItemToUse), PAL_XY(116, 143+20), STATUS_COLOR_EQUIPMENT,
                          TRUE, FALSE);
-            PAL_DrawNumber(i, 2, PAL_XY(170, 133), kNumColorCyan, kNumAlignRight);
+            PAL_DrawNumber(i, 2, PAL_XY(170, 133+20), kNumColorCyan, kNumAlignRight);
         }
         
         //

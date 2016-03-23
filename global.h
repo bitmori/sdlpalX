@@ -40,6 +40,9 @@ extern "C"
 // an event object, player triggered an event script by pressing Spacebar).
 //
 
+// maximum possible value of a property of a character
+#define     MAX_PROPERTY_VALUE           1999
+    
 // maximum number of players in party
 #define     MAX_PLAYERS_IN_PARTY         4
 

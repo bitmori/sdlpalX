@@ -1524,7 +1524,7 @@ VOID PAL_PlayerLevelUp(WORD wPlayerRole, WORD wNumLevel)
       gpGlobals->g.PlayerRoles.rgwFleeRate[wPlayerRole] += 2;
    }
 
-#define STAT_LIMIT(t) { if ((t) > 999) (t) = 999; }
+#define STAT_LIMIT(t) { if ((t) > MAX_PROPERTY_VALUE) (t) = MAX_PROPERTY_VALUE; }
    STAT_LIMIT(gpGlobals->g.PlayerRoles.rgwMaxHP[wPlayerRole]);
    STAT_LIMIT(gpGlobals->g.PlayerRoles.rgwMaxMP[wPlayerRole]);
    STAT_LIMIT(gpGlobals->g.PlayerRoles.rgwAttackStrength[wPlayerRole]);

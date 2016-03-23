@@ -238,7 +238,6 @@ VOID PAL_GameUpdate(BOOL fTrigger)
 /*++
  Allow player use an item in the game.
  --*/
-
 VOID PAL_GameUseItem(VOID)
 {
     WORD         wObject;
