@@ -372,8 +372,8 @@ static VOID PALX_Fantastic4(void)
     gpGlobals->wMaxPartyMemberIndex = 3;
     gpGlobals->rgParty[0].wPlayerRole = 0; // => XY
     gpGlobals->rgParty[1].wPlayerRole = 1; // => 02
-    gpGlobals->rgParty[2].wPlayerRole = 4; // => ANU
-    gpGlobals->rgParty[3].wPlayerRole = 2; // => Miss
+    gpGlobals->rgParty[2].wPlayerRole = 2; // => YR
+    gpGlobals->rgParty[3].wPlayerRole = 4; // => ANU
     g_Battle.rgPlayer[0].action.ActionType = kBattleActionAttack;
     g_Battle.rgPlayer[1].action.ActionType = kBattleActionAttack;
     g_Battle.rgPlayer[2].action.ActionType = kBattleActionAttack;
@@ -391,6 +391,10 @@ static VOID PALX_Fantastic4(void)
     //
     // Reload the player sprites
     //
+//    gpGlobals->g.PlayerRoles.rgwSpriteNum[0] = 2;
+//    gpGlobals->g.PlayerRoles.rgwSpriteNum[1] = 0x200; // or 0x3, 02's sprite can be changed...
+//    gpGlobals->g.PlayerRoles.rgwSpriteNum[2] = 7;
+//    gpGlobals->g.PlayerRoles.rgwSpriteNum[4] = 5;
     PAL_SetLoadFlags(kLoadPlayerSprite);
     PAL_LoadResources();
     
@@ -432,7 +436,21 @@ static VOID PALX_GodModeMenu(void)
     
     switch (wReturnValue) {
         case 1:
+            // +10 level up
+            PAL_AddItemToInventory(0x96, 10);
+            break;
+        case 2:
+            // selling item
+            PAL_SellMenu();
+            break;
+        case 3:
+            // +30 collect val
+            gpGlobals->wCollectValue += 30;
+        case 4:
             PALX_Fantastic4();
+            break;
+        case 5:
+            gpGlobals->dwCash += 30000;
             break;
         case MENUITEM_VALUE_CANCELLED:
         default:
@@ -898,6 +916,11 @@ PAL_InGameMagicMenu(
                 // Redraw the player info boxes first
                 //
                 y = 45;
+                
+                if (gpGlobals->wMaxPartyMemberIndex >= 3)
+                {
+                    y = 10;
+                }
                 
                 for (i = 0; i <= gpGlobals->wMaxPartyMemberIndex; i++)
                 {
