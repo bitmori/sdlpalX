@@ -363,6 +363,85 @@ PAL_SwitchMenu(
     return (wReturnValue == 0) ? FALSE : TRUE;
 }
 
+#ifdef PALX_GOD_MODE
+static VOID PALX_Fantastic4(void)
+{
+    //
+    // Set the player party
+    //
+    gpGlobals->wMaxPartyMemberIndex = 3;
+    gpGlobals->rgParty[0].wPlayerRole = 0; // => XY
+    gpGlobals->rgParty[1].wPlayerRole = 1; // => 02
+    gpGlobals->rgParty[2].wPlayerRole = 4; // => ANU
+    gpGlobals->rgParty[3].wPlayerRole = 2; // => Miss
+    g_Battle.rgPlayer[0].action.ActionType = kBattleActionAttack;
+    g_Battle.rgPlayer[1].action.ActionType = kBattleActionAttack;
+    g_Battle.rgPlayer[2].action.ActionType = kBattleActionAttack;
+    g_Battle.rgPlayer[3].action.ActionType = kBattleActionAttack;
+    
+    if (gpGlobals->wMaxPartyMemberIndex == 0)
+    {
+        // HACK for Dream 2.11
+        gpGlobals->rgParty[0].wPlayerRole = 0;
+        gpGlobals->wMaxPartyMemberIndex = 1;
+    }
+    
+    //gpGlobals->wMaxPartyMemberIndex--;
+    
+    //
+    // Reload the player sprites
+    //
+    PAL_SetLoadFlags(kLoadPlayerSprite);
+    PAL_LoadResources();
+    
+    memset(gpGlobals->rgPoisonStatus, 0, sizeof(gpGlobals->rgPoisonStatus));
+    PAL_UpdateEquipments();
+}
+
+static VOID PALX_GodModeMenu(void)
+{
+    LPBOX           lpBox;
+    WORD            wReturnValue;
+    const SDL_Rect  rect = {131, 100, 165, 50};
+    
+    MENUITEM        rgMenuItem[5] = {
+        { 1,   BATTLESPEEDMENU_LABEL_1,       TRUE,   PAL_XY(145, 110) },
+        { 2,   BATTLESPEEDMENU_LABEL_2,       TRUE,   PAL_XY(170, 110) },
+        { 3,   BATTLESPEEDMENU_LABEL_3,       TRUE,   PAL_XY(195, 110) },
+        { 4,   BATTLESPEEDMENU_LABEL_4,       TRUE,   PAL_XY(220, 110) },
+        { 5,   BATTLESPEEDMENU_LABEL_5,       TRUE,   PAL_XY(245, 110) },
+    };
+    
+    //
+    // Create the boxes
+    //
+    lpBox = PAL_CreateSingleLineBox(PAL_XY(131, 100), 8, TRUE);
+    VIDEO_UpdateScreen(&rect);
+    
+    //
+    // Activate the menu
+    //
+    wReturnValue = PAL_ReadMenu(NULL, rgMenuItem, 5, 0, MENUITEM_COLOR);
+    
+    //
+    // Delete the boxes
+    //
+    PAL_DeleteBox(lpBox);
+    
+    VIDEO_UpdateScreen(&rect);
+    
+    switch (wReturnValue) {
+        case 1:
+            PALX_Fantastic4();
+            break;
+        case MENUITEM_VALUE_CANCELLED:
+        default:
+            break;
+    }
+    
+}
+#endif
+
 #ifndef PAL_CLASSIC
 
 static VOID
@@ -517,6 +596,19 @@ PAL_SystemMenu(
     // Create menu items
     //
 #ifdef PAL_CLASSIC
+#ifdef PALX_GOD_MODE
+    MENUITEM        rgSystemMenuItem[6] =
+    {
+        // value  label                      enabled   pos
+        { 1,      SYSMENU_LABEL_SAVE,        TRUE,     PAL_XY(53, 72) },
+        { 2,      SYSMENU_LABEL_LOAD,        TRUE,     PAL_XY(53, 72 + 18) },
+        { 3,      SYSMENU_LABEL_MUSIC,       TRUE,     PAL_XY(53, 72 + 36) },
+        { 4,      SYSMENU_LABEL_SOUND,       TRUE,     PAL_XY(53, 72 + 54) },
+        { 5,      SYSMENU_LABEL_GODMODE,     TRUE,     PAL_XY(53, 72 + 72) },
+        { 6,      SYSMENU_LABEL_QUIT,        TRUE,     PAL_XY(53, 72 + 90) },
+        
+    };
+#else
     MENUITEM        rgSystemMenuItem[5] =
     {
         // value  label                      enabled   pos
@@ -526,6 +618,7 @@ PAL_SystemMenu(
         { 4,      SYSMENU_LABEL_SOUND,       TRUE,     PAL_XY(53, 72 + 54) },
         { 5,      SYSMENU_LABEL_QUIT,        TRUE,     PAL_XY(53, 72 + 72) },
     };
+#endif
 #else
     MENUITEM        rgSystemMenuItem[6] =
     {
@@ -543,7 +636,11 @@ PAL_SystemMenu(
     // Create the menu box.
     //
 #ifdef PAL_CLASSIC
+#ifdef PALX_GOD_MODE
+    lpMenuBox = PAL_CreateBox(PAL_XY(40, 60), 5, 3, 0, TRUE);
+#else
     lpMenuBox = PAL_CreateBox(PAL_XY(40, 60), 4, 3, 0, TRUE);
+#endif
 #else
     lpMenuBox = PAL_CreateBox(PAL_XY(40, 60), 5, 3, 0, TRUE);
 #endif
@@ -553,8 +650,13 @@ PAL_SystemMenu(
     // Perform the menu.
     //
 #ifdef PAL_CLASSIC
+#ifdef PALX_GOD_MODE
+    wReturnValue = PAL_ReadMenu(PAL_SystemMenu_OnItemChange, rgSystemMenuItem, 6,
+                                gpGlobals->iCurSystemMenuItem, MENUITEM_COLOR);
+#else
     wReturnValue = PAL_ReadMenu(PAL_SystemMenu_OnItemChange, rgSystemMenuItem, 5,
                                 gpGlobals->iCurSystemMenuItem, MENUITEM_COLOR);
+#endif
 #else
     wReturnValue = PAL_ReadMenu(PAL_SystemMenu_OnItemChange, rgSystemMenuItem, 6,
                                 gpGlobals->iCurSystemMenuItem, MENUITEM_COLOR);
@@ -652,7 +754,14 @@ PAL_SystemMenu(
             
         case 6:
 #else
+#ifdef PALX_GOD_MODE
         case 5:
+            PALX_GodModeMenu();
+            break;
+        case 6:
+#else
+        case 5:
+#endif
 #endif
             //
             // Quit

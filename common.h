@@ -26,6 +26,7 @@
 #define PAL_JSON           1 // 1 -> use JSON formatted data files
 #define PALX_SHOW_ENEMY_STATUS 1
 #define PALX_PURIFY_MONSTER 1
+#define PALX_GOD_MODE 1
 
 #ifdef __cplusplus
 extern "C"
