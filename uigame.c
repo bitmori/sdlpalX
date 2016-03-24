@@ -1342,6 +1342,20 @@ PAL_PlayerStatus(
                 y += 18;
             }
         }
+        //gpGlobals->rgPlayerStatus[iPlayerRole][kStatusSlow]
+        
+        int j, kk=0;
+        for (j = kStatusPuppet; j < kStatusAll; j++)
+        {
+            WORD round = gpGlobals->rgPlayerStatus[iPlayerRole][j];
+            if (round > 0)
+            {
+                // draw this status
+                PAL_DrawText(PAL_GetWord(PAL_ADDITIONAL_WORD_FIRST+14+(j-kStatusPuppet)), PAL_XY(283, 8+kk*20), MENUITEM_COLOR_CONFIRMED, TRUE, FALSE);
+                PAL_DrawNumber(round, 2, PAL_XY(269, 12+kk*20), kNumColorBlue, kNumAlignRight);
+                kk++;
+            }
+        }
         
         //
         // Update the screen

@@ -88,8 +88,15 @@ extern "C"
 
 // @@@ - PALX additional words
 #define ITEMMENU_LABEL_AMOUNT              (PAL_ADDITIONAL_WORD_FIRST + 6)
-    
 
+// PALX additional status info
+#define STATUS_LABEL_PUPPET                (PAL_ADDITIONAL_WORD_FIRST+14)
+#define STATUS_LABEL_BRAVE                 (PAL_ADDITIONAL_WORD_FIRST+15)
+#define STATUS_LABEL_PROTECT               (PAL_ADDITIONAL_WORD_FIRST+16)
+#define STATUS_LABEL_HASTE                 (PAL_ADDITIONAL_WORD_FIRST+17)
+#define STATUS_LABEL_DUALATK               (PAL_ADDITIONAL_WORD_FIRST+18)
+
+    
     
 #define INVMENU_LABEL_USE                  23
 #define INVMENU_LABEL_EQUIP                22
