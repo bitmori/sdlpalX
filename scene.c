@@ -577,11 +577,10 @@ VOID PAL_UpdatePartyGestures(BOOL fWalking)
                 gpGlobals->rgParty[i].x = gpGlobals->rgTrail[1].x - PAL_X(gpGlobals->viewport);
                 gpGlobals->rgParty[i].y = gpGlobals->rgTrail[1].y - PAL_Y(gpGlobals->viewport);
                 
-                
                 if (i == 2)
                 {
                     gpGlobals->rgParty[i].x +=
-                    (gpGlobals->rgTrail[1].wDirection == kDirEast || gpGlobals->rgTrail[1].wDirection == kDirWest) ? 16 : -16;
+                    (gpGlobals->rgTrail[1].wDirection == kDirEast || gpGlobals->rgTrail[1].wDirection == kDirWest) ? -16 : 16;
                     gpGlobals->rgParty[i].y += 8;
                 }
                 else

@@ -1342,7 +1342,6 @@ PAL_PlayerStatus(
                 y += 18;
             }
         }
-        //gpGlobals->rgPlayerStatus[iPlayerRole][kStatusSlow]
         
         int j, kk=0;
         for (j = kStatusPuppet; j < kStatusAll; j++)

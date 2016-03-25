@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		002F3A3F09D088BA00EBEB88 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A3E09D088BA00EBEB88 /* main.c */; };
 		4A50CE8B1CA06B92009ECFC0 /* parson.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A50CE891CA06B92009ECFC0 /* parson.c */; };
+		4AAC3F7D1CA5895400AA41A2 /* InventoryEditor.py in Resources */ = {isa = PBXBuildFile; fileRef = 4AAC3F7C1CA5895400AA41A2 /* InventoryEditor.py */; };
 		7104FD6A0D772F6300A97E53 /* battle.c in Sources */ = {isa = PBXBuildFile; fileRef = 7104FD3A0D772F6300A97E53 /* battle.c */; };
 		7104FD6D0D772F6300A97E53 /* font.c in Sources */ = {isa = PBXBuildFile; fileRef = 7104FD3D0D772F6300A97E53 /* font.c */; };
 		7104FD710D772F6300A97E53 /* getopt.c in Sources */ = {isa = PBXBuildFile; fileRef = 7104FD410D772F6300A97E53 /* getopt.c */; };
@@ -122,6 +123,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		4A50CE891CA06B92009ECFC0 /* parson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parson.c; sourceTree = "<group>"; };
 		4A50CE8A1CA06B92009ECFC0 /* parson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parson.h; sourceTree = "<group>"; };
+		4AAC3F7C1CA5895400AA41A2 /* InventoryEditor.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = InventoryEditor.py; path = mkfeditor/InventoryEditor.py; sourceTree = "<group>"; };
 		7104FD390D772F6300A97E53 /* ascii.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ascii.h; sourceTree = "<group>"; };
 		7104FD3A0D772F6300A97E53 /* battle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = battle.c; sourceTree = "<group>"; };
 		7104FD3B0D772F6300A97E53 /* battle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = battle.h; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4AAC3F7C1CA5895400AA41A2 /* InventoryEditor.py */,
 				716EB9C60D77340300D5DE1F /* sdlpal.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -536,6 +539,7 @@
 				71E23E9C13F6D1AD001287B6 /* imdct_s.dat in Resources */,
 				71E23EA613F6D1AD001287B6 /* qc_table.dat in Resources */,
 				71E23EA713F6D1AD001287B6 /* rq_table.dat in Resources */,
+				4AAC3F7D1CA5895400AA41A2 /* InventoryEditor.py in Resources */,
 				71E23EA813F6D1AD001287B6 /* sf_table.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
