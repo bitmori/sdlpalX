@@ -373,6 +373,16 @@ typedef enum tagMAGIC_TYPE
    kMagicTypeSummon           = 9,  // summon
 } MAGIC_TYPE;
 
+typedef enum tagMAGICEFX{
+    kMagicSpecialEffectNone = 0, // 无
+    kMagicSpecialEffectParallel = 1, // 平行的三叠仙术，如果wType == 1
+    kMagicSpecialEffectPreAnime = 2, // 在此法术效果绘制前 绘制 wSummonEffect 指向的法术
+    kMagicSpecialEffectSyncAnime = 3, // 在此法术效果绘制同时 绘制 wSummonEffect 指向的法术
+    kMagicSpecialEffectPostAnime = 4, // 在此法术效果绘制后 绘制 wSummonEffect 指向的法术
+    kMagicSpecialEffectFlipXY = 8, // 调转法术效果的方向
+    kMagicSpecialEffectReverse = 9, // 倒放法术效果
+} MAGIC_EFX;
+    
 typedef struct tagMAGIC
 {
    WORD               wEffect;               // effect sprite
@@ -386,7 +396,7 @@ typedef struct tagMAGIC
    WORD               wEffectTimes;          // total times of effect
    WORD               wShake;                // shake screen
    WORD               wWave;                 // wave screen
-   WORD               wUnknown;              // FIXME: ???
+   WORD               wSpecialEffect;              // FIXME: ??? -- in SDLPALX, it is changed to the flag for special effects
    WORD               wCostMP;               // MP cost
    WORD               wBaseDamage;           // base damage
    WORD               wElemental;            // elemental (0 = No Elemental, last = poison)
