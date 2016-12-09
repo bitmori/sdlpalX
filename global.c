@@ -59,10 +59,12 @@ INT PAL_InitGlobals(void)
    gpGlobals->f.fpFBP = UTIL_OpenRequiredFile("fbp.mkf");
    gpGlobals->f.fpMGO = UTIL_OpenRequiredFile("mgo.mkf");
    gpGlobals->f.fpBALL = UTIL_OpenRequiredFile("ball.mkf");
+    // load using csv
    gpGlobals->f.fpDATA = UTIL_OpenRequiredFile("data.mkf");
    gpGlobals->f.fpF = UTIL_OpenRequiredFile("f.mkf");
    gpGlobals->f.fpFIRE = UTIL_OpenRequiredFile("fire.mkf");
    gpGlobals->f.fpRGM = UTIL_OpenRequiredFile("rgm.mkf");
+    // load using csv, and this will be changed to a set of files
    gpGlobals->f.fpSSS = UTIL_OpenRequiredFile("sss.mkf");
 #ifndef PAL_WIN95
     // @@@ - this is where the desc.dat get loaded.

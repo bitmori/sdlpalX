@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		002F3A3F09D088BA00EBEB88 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A3E09D088BA00EBEB88 /* main.c */; };
+		323C10606C31D1CAFC051190 /* csvparser.c in Sources */ = {isa = PBXBuildFile; fileRef = 323C1BF57CC7DDA722DC6867 /* csvparser.c */; };
 		4A50CE8B1CA06B92009ECFC0 /* parson.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A50CE891CA06B92009ECFC0 /* parson.c */; };
 		4AAC3F7D1CA5895400AA41A2 /* InventoryEditor.py in Resources */ = {isa = PBXBuildFile; fileRef = 4AAC3F7C1CA5895400AA41A2 /* InventoryEditor.py */; };
 		7104FD6A0D772F6300A97E53 /* battle.c in Sources */ = {isa = PBXBuildFile; fileRef = 7104FD3A0D772F6300A97E53 /* battle.c */; };
@@ -121,6 +122,8 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		323C190119E20C6F884AA227 /* csvparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = csvparser.h; sourceTree = "<group>"; };
+		323C1BF57CC7DDA722DC6867 /* csvparser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = csvparser.c; sourceTree = "<group>"; };
 		4A50CE891CA06B92009ECFC0 /* parson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parson.c; sourceTree = "<group>"; };
 		4A50CE8A1CA06B92009ECFC0 /* parson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parson.h; sourceTree = "<group>"; };
 		4AAC3F7C1CA5895400AA41A2 /* InventoryEditor.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = InventoryEditor.py; path = mkfeditor/InventoryEditor.py; sourceTree = "<group>"; };
@@ -332,6 +335,7 @@
 				7104FD640D772F6300A97E53 /* util.c */,
 				7104FD650D772F6300A97E53 /* util.h */,
 				7104FD680D772F6300A97E53 /* yj1.c */,
+				323C1F9D22FDD88CC69C3205 /* CSV */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -354,6 +358,15 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		323C1F9D22FDD88CC69C3205 /* CSV */ = {
+			isa = PBXGroup;
+			children = (
+				323C190119E20C6F884AA227 /* csvparser.h */,
+				323C1BF57CC7DDA722DC6867 /* csvparser.c */,
+			);
+			name = CSV;
 			sourceTree = "<group>";
 		};
 		4A50CE881CA06B61009ECFC0 /* Parson */ = {
@@ -600,6 +613,7 @@
 				71E23EAD13F6D1AD001287B6 /* timer.c in Sources */,
 				71147E4014085E31003FB2DB /* surroundopl.cpp in Sources */,
 				7138FD0F1424E4810060DE76 /* dosbox_opl.cpp in Sources */,
+				323C10606C31D1CAFC051190 /* csvparser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
