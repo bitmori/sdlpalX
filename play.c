@@ -497,6 +497,7 @@ VOID PAL_StartFrame(VOID)
     else if (g_InputState.dwKeyPress & kKeySearch)
     {
         //
+        // search == enter Key
         // Process search events
         //
         PAL_Search();
@@ -504,6 +505,7 @@ VOID PAL_StartFrame(VOID)
     else if (g_InputState.dwKeyPress & kKeyFlee)
     {
         //
+        // Q Key
         // Quit Game
         //
         if (PAL_ConfirmMenu())
