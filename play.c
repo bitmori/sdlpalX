@@ -235,9 +235,10 @@ VOID PAL_GameUpdate(BOOL fTrigger)
     gpGlobals->dwFrameNum++;
 }
 
-/*++
- Allow player use an item in the game.
- --*/
+/**
+ * 使用道具
+ * Allow player use an item in the game.
+ */
 VOID PAL_GameUseItem(VOID)
 {
     WORD         wObject;
@@ -305,9 +306,10 @@ VOID PAL_GameUseItem(VOID)
     }
 }
 
-/*++
- Allow player equip an item in the game.
- --*/
+/**
+ * 装备道具
+ * Allow player equip an item in the game.
+ */
 VOID PAL_GameEquipItem(VOID)
 {
     WORD      wObject;
@@ -325,9 +327,10 @@ VOID PAL_GameEquipItem(VOID)
     }
 }
 
-/*++
- Process searching trigger events.
- --*/
+/**
+ * 处理回车键事件
+ * Process searching trigger events.
+ */
 VOID PAL_Search(VOID)
 {
     int                x, y, xOffset, yOffset, dx, dy, dh, ex, ey, eh, i, k, l;
@@ -434,9 +437,10 @@ VOID PAL_Search(VOID)
     }
 }
 
-/*++
- Starts a video frame. Called once per video frame.
- --*/
+/**
+ * 开始一帧图像。每一帧都会调用这个函数
+ * Starts a video frame. Called once per video frame.
+ */
 VOID PAL_StartFrame(VOID)
 {
     //
@@ -523,10 +527,11 @@ VOID PAL_StartFrame(VOID)
     }
 }
 
-/*++
- Wait for any key.
- Param: [IN]  wTimeOut - the maximum time of the waiting. 0 = wait forever.
- --*/
+/**
+ * Wait for any key.
+ *
+ * @param[in] wTimeOut - the maximum time of the waiting. 0 = wait forever.
+ */
 VOID PAL_WaitForKey(WORD wTimeOut)
 {
     DWORD     dwTimeOut = SDL_GetTicks() + wTimeOut;
