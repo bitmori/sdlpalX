@@ -418,7 +418,7 @@
 		323C1276AC24D4AD530DD6DF /* Rasterizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rasterizer.cpp; sourceTree = "<group>"; };
 		323C127AA6DB2EC860E362A8 /* Filesystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Filesystem.cpp; sourceTree = "<group>"; };
 		323C127DE12DC4E24D51C0CD /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
-		323C1282A8D4D0520D9051B7 /* math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = math.h; sourceTree = "<group>"; };
+		323C1282A8D4D0520D9051B7 /* math.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = math.hpp; sourceTree = "<group>"; };
 		323C1282F32ACA2E78C28F86 /* palcommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = palcommon.c; sourceTree = "<group>"; };
 		323C1291B36432C6594C6B78 /* wrap_MouseJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrap_MouseJoint.cpp; sourceTree = "<group>"; };
 		323C12A5704F8FA6711CED62 /* Joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Joint.h; sourceTree = "<group>"; };
@@ -1282,7 +1282,7 @@
 				323C11459EBEC3B8AA8E5E57 /* ios.h */,
 				323C1F8C09DDFEFC5EE5C38C /* Data.h */,
 				323C10C8B5F1D3125B1BC6C8 /* ios.mm */,
-				323C1282A8D4D0520D9051B7 /* math.h */,
+				323C1282A8D4D0520D9051B7 /* math.hpp */,
 				323C1AEC2FD43ED189005CAC /* utf8.h */,
 				323C1EDDC5BD995EFF891266 /* b64.cpp */,
 				323C1F229DF09A67E919493A /* delay.h */,

@@ -726,43 +726,4 @@ PAL_GetObjectDesc(
     return NULL;
 }
 
-LPOBJECTDESC PALX_LoadObjectDescJSON(LPCSTR lpszFileName) {
-    JSON_Value *root_value;
-    JSON_Array *descriptions;
-
-    root_value = json_parse_file(lpszFileName);
-    if (root_value == NULL) {
-        return NULL;
-    }
-    if (json_value_get_type(root_value) != JSONArray) {
-        return NULL;
-    }
-
-    descriptions = json_value_get_array(root_value);
-    size_t count = json_array_get_count(descriptions);
-
-    JSON_Object *description;
-
-    LPOBJECTDESC lpDesc = NULL, pNew = NULL;
-
-    for (unsigned int k = 0; k < count; k++) {
-        //
-        // Load the description data
-        //
-        description = json_array_get_object(descriptions, k);
-        pNew = UTIL_calloc(1, sizeof(OBJECTDESC));
-
-        pNew->lpDesc = strdup(json_object_get_string(description, "desc"));
-        pNew->wObjectID = json_object_get_number(description, "objectId");
-
-        pNew->next = lpDesc;
-        lpDesc = pNew;
-    }
-
-    json_value_free(root_value);
-
-    return lpDesc;
-}
-
-
 #endif
