@@ -46,15 +46,15 @@
 #endif // LOVE_LEGENDARY_ACCELEROMETER_AS_JOYSTICK_HACK
 
 // Libraries.
-#ifdef LOVE_ENABLE_LUASOCKET
-#	include "libraries/luasocket/luasocket.h"
-#endif
-#ifdef LOVE_ENABLE_ENET
-#	include "libraries/enet/lua-enet.h"
-#endif
-#ifdef LOVE_ENABLE_LUAUTF8
-#	include "libraries/luautf8/lutf8lib.h"
-#endif
+//#ifdef LOVE_ENABLE_LUASOCKET
+//#	include "libraries/luasocket/luasocket.h"
+//#endif
+//#ifdef LOVE_ENABLE_ENET
+//#	include "libraries/enet/lua-enet.h"
+//#endif
+//#ifdef LOVE_ENABLE_LUAUTF8
+//#	include "libraries/luautf8/lutf8lib.h"
+//#endif
 
 // For love::graphics::setGammaCorrect.
 #ifdef LOVE_ENABLE_GRAPHICS
@@ -331,15 +331,15 @@ int luaopen_love(lua_State *L)
 	// Load "common" types.
 	love::w_Data_open(L);
 
-#ifdef LOVE_ENABLE_LUASOCKET
-	love::luasocket::__open(L);
-#endif
-#ifdef LOVE_ENABLE_ENET
-	love::luax_preload(L, luaopen_enet, "enet");
-#endif
-#ifdef LOVE_ENABLE_LUAUTF8
-	love::luax_preload(L, luaopen_luautf8, "utf8");
-#endif
+//#ifdef LOVE_ENABLE_LUASOCKET
+//	love::luasocket::__open(L);
+//#endif
+//#ifdef LOVE_ENABLE_ENET
+//	love::luax_preload(L, luaopen_enet, "enet");
+//#endif
+//#ifdef LOVE_ENABLE_LUAUTF8
+//	love::luax_preload(L, luaopen_luautf8, "utf8");
+//#endif
 
 	return 1;
 }
