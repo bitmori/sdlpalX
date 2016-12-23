@@ -23,7 +23,7 @@
 
 #if BINIO_WITH_MATH
 
-#include <math.h>
+#include <cmath>
 
 #ifdef __QNXNTO__
 #define pow std::powf

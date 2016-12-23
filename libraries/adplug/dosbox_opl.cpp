@@ -25,7 +25,7 @@
  */
 
 
-#include <math.h>
+#include <cmath>
 #include <stdlib.h> // rand()
 #include <string.h> // memset()
 #include "dosbox_opl.h"

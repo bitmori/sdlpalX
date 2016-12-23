@@ -36,7 +36,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include <math.h>
+#include <cmath>
 #include "fmopl.h"
 
 #ifndef PI
