@@ -30,3 +30,4 @@ DerivedData
 # Additions
 .idea/
 .DS_Store
+**/.DS_Store
