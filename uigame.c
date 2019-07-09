@@ -393,13 +393,21 @@ static VOID PALX_Fantastic4(void)
     //
 //    gpGlobals->g.PlayerRoles.rgwSpriteNum[0] = 2;
 //    gpGlobals->g.PlayerRoles.rgwSpriteNum[1] = 0x200; // or 0x3, 02's sprite can be changed...
-//    gpGlobals->g.PlayerRoles.rgwSpriteNum[2] = 7;
+    gpGlobals->g.PlayerRoles.rgwSpriteNum[2] = 7;
 //    gpGlobals->g.PlayerRoles.rgwSpriteNum[4] = 5;
     PAL_SetLoadFlags(kLoadPlayerSprite);
     PAL_LoadResources();
     
     memset(gpGlobals->rgPoisonStatus, 0, sizeof(gpGlobals->rgPoisonStatus));
     PAL_UpdateEquipments();
+}
+
+static VOID PALX_LearnNewMagic(void)
+{
+    PAL_AddMagic(4, 0x165); // Claws of Hell
+    PAL_AddMagic(4, 0x167); // Crazy Gale
+    PAL_AddMagic(4, 0x144); // Snowstorm 1
+    PAL_AddMagic(2, 0x177); // 
 }
 
 static VOID PALX_GodModeMenu(void)
@@ -450,7 +458,9 @@ static VOID PALX_GodModeMenu(void)
             PALX_Fantastic4();
             break;
         case 5:
-            gpGlobals->dwCash += 30000;
+            // any extra
+            PALX_LearnNewMagic();
+//            gpGlobals->dwCash += 30000;
             break;
         case MENUITEM_VALUE_CANCELLED:
         default:

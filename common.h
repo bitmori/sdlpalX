@@ -44,6 +44,8 @@ extern "C"
 #include "SDL.h"
 #include "SDL_endian.h"
     
+#include "toml.h"
+    
 #ifdef _SDL_stdinc_h
 #define malloc       SDL_malloc
 #define calloc       SDL_calloc

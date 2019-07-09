@@ -800,6 +800,51 @@ PAL_GetObjectDesc(
    return NULL;
 }
 
+LPTOMLTABLE
+PALX_LoadObjectDescToml(LPCSTR lpszTomlFileName)
+{
+    FILE* fp;
+    LPTOMLTABLE desc;
+    char errbuf[200];
+    
+    /* open file and parse */
+    fp = fopen(lpszTomlFileName, "r");
+    
+    if (fp == NULL)
+    {
+        return NULL;
+    }
+
+    desc = toml_parse_file(fp, errbuf, sizeof(errbuf));
+    fclose(fp);
+    return desc;
+}
+
+
+VOID
+PALX_FreeObjectDescToml(
+   LPTOMLTABLE    lpObjectDesc
+) {
+    toml_free(lpObjectDesc);
+}
+
+LPCSTR
+PALX_GetObjectDescToml(
+   LPTOMLTABLE    lpObjectDesc,
+   WORD           wObjectID
+){
+    char hex[6];
+    sprintf(hex, "0x%x", wObjectID);
+    LPTOMLTABLE entry;
+    LPCSTR desc;
+    if ((entry = toml_table_in(lpObjectDesc, hex))) {
+        if ((desc = toml_raw_in(entry, "lines"))) {
+            return desc;
+        }
+    }
+    return NULL;
+}
+
 LPOBJECTDESC PALX_LoadObjectDescJSON(LPCSTR lpszFileName)
 {
     JSON_Value * root_value;

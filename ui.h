@@ -165,6 +165,8 @@ typedef struct tagOBJECTDESC
    LPSTR                       lpDesc;
    struct tagOBJECTDESC       *next;
 } OBJECTDESC, *LPOBJECTDESC;
+    
+typedef toml_table_t * LPTOMLTABLE;
 
 typedef VOID (*LPITEMCHANGED_CALLBACK)(WORD);
 typedef VOID (*LPCOUNTBOXCHANGED_CALLBACK)(INT);
@@ -247,6 +249,22 @@ PAL_FreeObjectDesc(
 LPCSTR
 PAL_GetObjectDesc(
    LPOBJECTDESC   lpObjectDesc,
+   WORD           wObjectID
+);
+
+LPTOMLTABLE
+PALX_LoadObjectDescToml(
+   LPCSTR lpszTomlFileName
+);
+
+VOID
+PALX_FreeObjectDescToml(
+   LPTOMLTABLE    lpObjectDesc
+);
+
+LPCSTR
+PALX_GetObjectDescToml(
+   LPTOMLTABLE    lpObjectDesc,
    WORD           wObjectID
 );
 
