@@ -67,6 +67,7 @@ INT PAL_InitGlobals(void)
 #ifndef PAL_WIN95
     // @@@ - this is where the desc.dat get loaded.
    gpGlobals->lpObjectDesc = PAL_LoadObjectDesc(va("%s%s", PAL_PREFIX, "desc.dat"));
+   gpGlobals->lpObjectDescToml = PALX_LoadObjectDescToml(va("%s%s", PAL_PREFIX, "desc.toml"));
 #endif
    gpGlobals->bCurrentSaveSlot = 1;
 
@@ -110,6 +111,7 @@ VOID PAL_FreeGlobals(void)
       //
 #ifndef PAL_WIN95
       PAL_FreeObjectDesc(gpGlobals->lpObjectDesc);
+      PALX_FreeObjectDescToml(gpGlobals->lpObjectDescToml);
 #endif
       //
       // Delete the instance

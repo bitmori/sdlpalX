@@ -262,7 +262,7 @@ PALX_FreeObjectDescToml(
    LPTOMLTABLE    lpObjectDesc
 );
 
-LPCSTR
+LPSTR
 PALX_GetObjectDescToml(
    LPTOMLTABLE    lpObjectDesc,
    WORD           wObjectID

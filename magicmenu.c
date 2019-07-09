@@ -99,7 +99,8 @@ WORD PAL_MagicSelectionMenuUpdate(void)
     PAL_CreateBox(PAL_XY(10, 42), 4, 16, 1, FALSE);
     
 #ifndef PAL_WIN95
-    if (gpGlobals->lpObjectDesc == NULL)
+    // if (gpGlobals->lpObjectDesc == NULL)
+    if (gpGlobals->lpObjectDescToml == NULL)
     {
         //
         // Draw the cash amount.
@@ -121,7 +122,8 @@ WORD PAL_MagicSelectionMenuUpdate(void)
     else
     {
         char szDesc[512], *next;
-        const char *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, rgMagicItem[g_iCurrentItem].wMagic);
+        // const char *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, rgMagicItem[g_iCurrentItem].wMagic);
+        char *d = PALX_GetObjectDescToml(gpGlobals->lpObjectDescToml, rgMagicItem[g_iCurrentItem].wMagic);
         
         //
         // Draw the magic description.
@@ -151,6 +153,7 @@ WORD PAL_MagicSelectionMenuUpdate(void)
                 
                 d = next;
             }
+            free(d);
         }
         
         //

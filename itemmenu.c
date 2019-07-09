@@ -214,11 +214,12 @@ WORD PAL_ItemSelectMenuUpdate(void)
     // Draw the description of the selected item
     //
 #ifndef PAL_WIN95
-    if (!g_fNoDesc && gpGlobals->lpObjectDesc != NULL)
+    // if (!g_fNoDesc && gpGlobals->lpObjectDesc != NULL)
+    if (!g_fNoDesc && gpGlobals->lpObjectDescToml != NULL)
     {
         char szDesc[512], *next;
-        const char *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, wObject);
-        
+        // const char *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, wObject);
+        char *d = PALX_GetObjectDescToml(gpGlobals->lpObjectDescToml, wObject);
         if (d != NULL)
         {
             k = 150;
@@ -244,6 +245,7 @@ WORD PAL_ItemSelectMenuUpdate(void)
                 
                 d = next;
             }
+            free(d);
         }
     }
 #else

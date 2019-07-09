@@ -817,6 +817,10 @@ PALX_LoadObjectDescToml(LPCSTR lpszTomlFileName)
 
     desc = toml_parse_file(fp, errbuf, sizeof(errbuf));
     fclose(fp);
+    if (NULL == desc) {
+        extern SDL_Window *gpWindow;
+        SDL_ShowSimpleMessageBox(0, "FATAL ERROR", errbuf, gpWindow);
+    }
     return desc;
 }
 
@@ -828,7 +832,7 @@ PALX_FreeObjectDescToml(
     toml_free(lpObjectDesc);
 }
 
-LPCSTR
+LPSTR
 PALX_GetObjectDescToml(
    LPTOMLTABLE    lpObjectDesc,
    WORD           wObjectID
@@ -836,10 +840,13 @@ PALX_GetObjectDescToml(
     char hex[6];
     sprintf(hex, "0x%x", wObjectID);
     LPTOMLTABLE entry;
-    LPCSTR desc;
+    const char * raw;
+    char * desc;
     if ((entry = toml_table_in(lpObjectDesc, hex))) {
-        if ((desc = toml_raw_in(entry, "lines"))) {
-            return desc;
+        if ((raw = toml_raw_in(entry, "lines"))) {
+            if (!toml_rtos(raw, &desc)) {
+                return desc;
+            }
         }
     }
     return NULL;
