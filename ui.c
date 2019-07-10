@@ -764,7 +764,12 @@ VOID PAL_FreeObjectDesc(LPOBJECTDESC   lpObjectDesc)
    }
 }
 
+
+#ifdef PAL_UNICODE
+LPCWSTR
+#else
 LPCSTR
+#endif
 PAL_GetObjectDesc(
    LPOBJECTDESC   lpObjectDesc,
    WORD           wObjectID
@@ -800,11 +805,12 @@ PAL_GetObjectDesc(
    return NULL;
 }
 
-LPTOMLTABLE
+LPOBJECTDESC
 PALX_LoadObjectDescToml(LPCSTR lpszTomlFileName)
 {
     FILE* fp;
-    LPTOMLTABLE desc;
+    LPOBJECTDESC               lpDesc = NULL, pNew = NULL;
+    toml_table_t* tt;
     char errbuf[200];
     
     /* open file and parse */
@@ -815,41 +821,37 @@ PALX_LoadObjectDescToml(LPCSTR lpszTomlFileName)
         return NULL;
     }
 
-    desc = toml_parse_file(fp, errbuf, sizeof(errbuf));
+    tt = toml_parse_file(fp, errbuf, sizeof(errbuf));
     fclose(fp);
-    if (NULL == desc) {
+    if (NULL == tt) {
         extern SDL_Window *gpWindow;
         SDL_ShowSimpleMessageBox(0, "FATAL ERROR", errbuf, gpWindow);
     }
-    return desc;
-}
-
-
-VOID
-PALX_FreeObjectDescToml(
-   LPTOMLTABLE    lpObjectDesc
-) {
-    toml_free(lpObjectDesc);
-}
-
-LPCWSTR
-PALX_GetObjectDescToml(
-   LPTOMLTABLE    lpObjectDesc,
-   WORD           wObjectID
-){
-    char hex[6];
-    sprintf(hex, "0x%x", wObjectID);
-    LPTOMLTABLE entry;
-    const char * raw;
-    char * desc;
-    if ((entry = toml_table_in(lpObjectDesc, hex))) {
-        if ((raw = toml_raw_in(entry, "lines"))) {
-            if (!toml_rtos(raw, &desc)) {
-                return desc;
-            }
+    
+    //
+    // Load the description data
+    //
+    /*while (fgets(buf, 512, fp) != NULL)
+    {
+        p = strchr(buf, '=');
+        if (p == NULL)
+        {
+            continue;
         }
-    }
-    return NULL;
+        
+        *p = '\0';
+        p++;
+        
+        pNew = UTIL_calloc(1, sizeof(OBJECTDESC));
+        
+        sscanf(buf, "%x", &i);
+        pNew->wObjectID = i;
+        pNew->lpDesc = strdup(p);
+        
+        pNew->next = lpDesc;
+        lpDesc = pNew;
+    }*/
+    return lpDesc;
 }
 
 LPOBJECTDESC PALX_LoadObjectDescJSON(LPCSTR lpszFileName)
