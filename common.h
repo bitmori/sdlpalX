@@ -23,6 +23,7 @@
 
 //#define PAL_WIN95          1 // not valid for now
 #define PAL_CLASSIC        1
+#define PAL_UNICODE        1 // use unicode
 #define PAL_JSON           1 // 1 -> use JSON formatted data files
 #define PALX_SHOW_ENEMY_STATUS 1
 #define PALX_PURIFY_MONSTER 1
@@ -189,6 +190,7 @@ extern "C"
 #else
     
 #include <unistd.h>
+#include <wchar.h>
     
 #define CONST               const
 #ifndef FALSE
@@ -199,6 +201,7 @@ extern "C"
 #endif
 #define VOID                void
     typedef char                CHAR;
+    typedef wchar_t             WCHAR;
     typedef short               SHORT;
     typedef long                LONG;
     
@@ -220,6 +223,8 @@ extern "C"
     typedef const void         *LPCVOID;
     typedef CHAR               *LPSTR;
     typedef const CHAR         *LPCSTR;
+    typedef WCHAR              *LPWSTR;
+    typedef const WCHAR        *LPCWSTR;
     
 #endif
     
@@ -229,6 +234,17 @@ extern "C"
 #define PAL_LARGE           /* */
 #endif
     
+#define __WIDETEXT(quote) L##quote
+#define WIDETEXT(quote) __WIDETEXT(quote)
+    
+typedef enum tagCODEPAGE {
+    CP_BIG5 = 0,
+    CP_GBK = 1,
+    CP_SHIFTJIS = 2,
+    CP_UTF_8 = 3, // ?? really needed ??
+    CP_MAX = 4
+} CODEPAGE;
+
 #ifdef __cplusplus
 }
 #endif

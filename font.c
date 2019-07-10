@@ -20,10 +20,142 @@
 //
 
 #include "font.h"
-#include "ascii.h"
 #include "util.h"
 
-#ifdef PAL_WIN95
+#if defined(PAL_UNICODE)
+
+#include "fontglyph.h"
+
+INT
+PAL_InitFont(
+   VOID
+)
+/*++
+ Purpose:
+ Load the font files.
+ Parameters:
+ None.
+ Return value:
+ 0 if succeed.
+ --*/
+{
+    return 0;
+}
+
+VOID
+PAL_FreeFont(
+             VOID
+             )
+/*++
+ Purpose:
+ Free the memory used for fonts.
+ Parameters:
+ None.
+ Return value:
+ None.
+ --*/
+{
+}
+
+VOID
+PAL_DrawCharOnSurface(
+                      WORD                     wChar,
+                      SDL_Surface             *lpSurface,
+                      PAL_POS                  pos,
+                      BYTE                     bColor
+                      )
+/*++
+ Purpose:
+ Draw a Unicode character on a surface.
+ Parameters:
+ [IN]  wChar - the unicode character to be drawn.
+ [OUT] lpSurface - the destination surface.
+ [IN]  pos - the destination location of the surface.
+ [IN]  bColor - the color of the character.
+ Return value:
+ None.
+ --*/
+{
+    int       i, j;
+    int       x = PAL_X(pos), y = PAL_Y(pos);
+    
+    //
+    // Check for NULL pointer & invalid char code.
+    //
+    if (lpSurface == NULL || (wChar >= 0xd800 && wChar < unicode_upper_base) || wChar >= unicode_upper_top)
+    {
+        return;
+    }
+    
+    //
+    // Locate for this character in the font lib.
+    //
+    if (wChar >= unicode_upper_base)
+    {
+        wChar -= (unicode_upper_base - 0xd800);
+    }
+    
+    //
+    // Draw the character to the surface.
+    //
+    LPBYTE dest = (LPBYTE)lpSurface->pixels + y * lpSurface->pitch + x;
+    if (font_width[wChar] == 32)
+    {
+        for (i = 0; i < 32; i += 2, dest += lpSurface->pitch)
+        {
+            for (j = 0; j < 8; j++)
+            {
+                if (unicode_font[wChar][i] & (1 << (7 - j)))
+                {
+                    dest[j] = bColor;
+                }
+            }
+            for (j = 0; j < 8; j++)
+            {
+                if (unicode_font[wChar][i + 1] & (1 << (7 - j)))
+                {
+                    dest[j + 8] = bColor;
+                }
+            }
+        }
+    }
+    else
+    {
+        for (i = 0; i < 16; i++, dest += lpSurface->pitch)
+        {
+            for (j = 0; j < 8; j++)
+            {
+                if (unicode_font[wChar][i] & (1 << (7 - j)))
+                {
+                    dest[j] = bColor;
+                }
+            }
+        }
+    }
+}
+
+INT
+PAL_CharWidth(
+              WORD                     wChar
+              )
+{
+    if ((wChar >= 0xd800 && wChar < unicode_upper_base) || wChar >= unicode_upper_top)
+    {
+        return 0;
+    }
+    
+    //
+    // Locate for this character in the font lib.
+    //
+    if (wChar >= unicode_upper_base)
+    {
+        wChar -= (unicode_upper_base - 0xd800);
+    }
+    
+    return font_width[wChar] >> 1;
+}
+
+#elif defined(PAL_WIN95)
 
 /*
  * Portions based on:

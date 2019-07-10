@@ -105,8 +105,13 @@ typedef struct tagBATTLEUI
    BATTLEUISTATE    state;
    BATTLEMENUSTATE  MenuState;
 
+#ifdef PAL_UNICODE
+   WCHAR            szMsg[256];           // message to be shown on the screen
+   WCHAR            szNextMsg[256];       // next message to be shown on the screen
+#else
    CHAR             szMsg[256];           // message to be shown on the screen
    CHAR             szNextMsg[256];       // next message to be shown on the screen
+#endif
    DWORD            dwMsgShowTime;        // the end time of showing the message
    WORD             wNextMsgDuration;     // duration of the next message
 
@@ -134,7 +139,11 @@ PAL_PlayerInfoBox(
 
 VOID
 PAL_BattleUIShowText(
+#ifdef PAL_UNICODE
+   LPCWSTR       lpszText,
+#else
    LPCSTR        lpszText,
+#endif
    WORD          wDuration
 );
 

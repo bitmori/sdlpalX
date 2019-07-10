@@ -445,6 +445,41 @@ static VOID PAL_MonsterChasePlayer(WORD wEventObjectID, WORD wSpeed, WORD wChase
  --*/
 static VOID PAL_AdditionalCredits(void)
 {
+#ifdef PAL_UNICODE
+        LPCWSTR rgszStrings[] = {
+            L"SDLPAL (http://sdlpal.codeplex.com/)",
+#  ifdef PAL_CLASSIC
+            L"         (\x7D93\x5178\x7279\x5225\x7BC7  " WIDETEXT(__DATE__) L")",
+#  else
+            L"                    (" WIDETEXT(__DATE__) L")",
+#  endif
+            L" ",
+            L"  (c) 2009-2011, Wei Mingzhi",
+            L"      <whistler_wmz@users.sf.net>.",
+#  ifdef __SYMBIAN32__
+            L"  Symbian S60 \x79FB\x690D (c) 2009, netwan.",
+#  endif
+#  ifdef GPH
+            L"  GPH Caanoo & Wiz \x79FB\x690D (c) 2011, Rikku2000.",
+#  endif
+#  ifdef GEKKO
+            L"  Nintendo WII \x79FB\x690D (c) 2012, Rikku2000.",
+#  endif
+#  ifdef DINGOO
+            L"  DINGOO & Dingux \x79FB\x690D (c) 2011, Rikku2000.",
+#  endif
+#  ifdef ANDROID
+            L"  ANDROID \x79FB\x690D (c) 2013, Rikku2000.",
+#  endif
+            L" ",
+            L"\x672C\x7A0B\x5F0F\x662F\x81EA\x7531\x8EDF\x9AD4\xFF0C\x6309\x7167"
+            L" GNU General",
+            L"Public License (GPLv3) \x767C\x4F48",
+            L" ",
+            L"                 ...\x6309 Enter \x7D50\x675F",
+            L""
+        };
+#else
     LPCSTR rgszStrings[] = {
         "SDLPAL (http://sdlpal.codeplex.com/)",
 #ifdef PAL_CLASSIC
@@ -475,10 +510,10 @@ static VOID PAL_AdditionalCredits(void)
         "                 ...\xAB\xF6 Enter \xB5\xB2\xA7\xF4",
         ""
     };
-    
+#endif
     int        i = 0;
     
-#ifdef PAL_WIN95
+#if defined(PAL_WIN95) && !defined(PAL_UNICODE)
     extern BOOL fIsBig5;
     fIsBig5 = TRUE;
 #endif
@@ -1334,8 +1369,13 @@ static WORD PAL_InterpretInstruction(WORD wScriptEntry, WORD wEventObjectID)
             if (gpGlobals->wCollectValue > 0)
             {
 #ifndef PALX_PURIFY_MONSTER
+#     ifdef PAL_UNICODE
+                WCHAR s[256];
+#     else
                 char s[256];
+#     endif
 #endif
+
 
 #ifdef PAL_CLASSIC
                 i = RandomLong(1, gpGlobals->wCollectValue);
@@ -1360,8 +1400,13 @@ static WORD PAL_InterpretInstruction(WORD wScriptEntry, WORD wEventObjectID)
                 PAL_AddItemToInventory(gpGlobals->g.lprgStore[0].rgwItems[i], 1);
                 
                 PAL_StartDialog(kDialogCenterWindow, 0, 0, FALSE);
+#     ifdef PAL_UNICODE
+                wcscpy(s, PAL_GetWord(42));
+                wcscat(s, PAL_GetWord(gpGlobals->g.lprgStore[0].rgwItems[i]));
+#     else
                 strcpy(s, PAL_GetWord(42));
                 strcat(s, PAL_GetWord(gpGlobals->g.lprgStore[0].rgwItems[i]));
+#     endif
                 PAL_ShowDialogText(s);
 #endif
             }

@@ -217,18 +217,31 @@ WORD PAL_ItemSelectMenuUpdate(void)
     // if (!g_fNoDesc && gpGlobals->lpObjectDesc != NULL)
     if (!g_fNoDesc && gpGlobals->lpObjectDescToml != NULL)
     {
+#ifdef PAL_UNICODE
+        WCHAR szDesc[512], *next;
+        const WCHAR *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, wObject);
+//        WCHAR *d = PALX_GetObjectDescToml(gpGlobals->lpObjectDescToml, wObject);
+#else
         char szDesc[512], *next;
-        // const char *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, wObject);
-        char *d = PALX_GetObjectDescToml(gpGlobals->lpObjectDescToml, wObject);
+        const char *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, wObject);
+#endif
         if (d != NULL)
         {
             k = 150;
+#     ifdef PAL_UNICODE
+            wcscpy(szDesc, d);
+#     else
             strcpy(szDesc, d);
+#     endif
             d = szDesc;
             
             while (TRUE)
             {
+#        ifdef PAL_UNICODE
+                next = wcschr(d, '*');
+#        else
                 next = strchr(d, '*');
+#        endif
                 if (next != NULL)
                 {
                     *next = '\0';

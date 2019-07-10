@@ -48,6 +48,14 @@ PAL_DrawCharOnSurface(
    BYTE                     bColor
 );
 
+#ifdef PAL_UNICODE
+    
+INT
+PAL_CharWidth(
+   WORD                     wChar
+);
+    
+#else
 VOID
 PAL_DrawASCIICharOnSurface(
    BYTE                     bChar,
@@ -55,6 +63,7 @@ PAL_DrawASCIICharOnSurface(
    PAL_POS                  pos,
    BYTE                     bColor
 );
+#endif
 
 #ifdef __cplusplus
 }

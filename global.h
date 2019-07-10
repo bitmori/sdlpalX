@@ -567,6 +567,11 @@ typedef struct tagGLOBALVARS
    LPTOMLTABLE      lpObjectDescToml;
 #endif
    DWORD            dwFrameNum;
+
+#ifdef PAL_UNICODE
+    CODEPAGE         iCodePage;
+    DWORD            dwWordLength;
+#endif
 } GLOBALVARS, *LPGLOBALVARS;
 
 typedef struct tagSAVEDGAME
@@ -603,7 +608,14 @@ typedef struct tagSAVEDGAME
 extern LPGLOBALVARS gpGlobals;
 
 // @@@ - all the GLOBAL functions exist here
-INT PAL_InitGlobals(void);
+INT PAL_InitGlobals(
+#ifdef PAL_UNICODE
+    CODEPAGE      iCodePage,
+    DWORD         dwWordLength
+#else
+    VOID
+#endif
+);
 
 VOID PAL_FreeGlobals(void);
 

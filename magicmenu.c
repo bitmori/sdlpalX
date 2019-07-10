@@ -121,22 +121,34 @@ WORD PAL_MagicSelectionMenuUpdate(void)
     }
     else
     {
+#  ifdef PAL_UNICODE
+        WCHAR szDesc[512], *next;
+        const WCHAR *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, rgMagicItem[g_iCurrentItem].wMagic);
+//        WCHAR *d = PALX_GetObjectDescToml(gpGlobals->lpObjectDescToml, rgMagicItem[g_iCurrentItem].wMagic);
+#  else
         char szDesc[512], *next;
-        // const char *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, rgMagicItem[g_iCurrentItem].wMagic);
-        char *d = PALX_GetObjectDescToml(gpGlobals->lpObjectDescToml, rgMagicItem[g_iCurrentItem].wMagic);
-        
+        const char *d = PAL_GetObjectDesc(gpGlobals->lpObjectDesc, rgMagicItem[g_iCurrentItem].wMagic);
+#  endif
         //
         // Draw the magic description.
         //
         if (d != NULL)
         {
             k = 3;
+#     ifdef PAL_UNICODE
+            wcscpy(szDesc, d);
+#     else
             strcpy(szDesc, d);
+#     endif
             d = szDesc;
             
             while (TRUE)
             {
+#        ifdef PAL_UNICODE
+                next = wcschr(d, '*');
+#        else
                 next = strchr(d, '*');
+#        endif
                 if (next != NULL)
                 {
                     *next = '\0';

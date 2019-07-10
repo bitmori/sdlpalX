@@ -114,7 +114,7 @@ PAL_Init(
 
    SDL_WM_SetCaption("Loading...", NULL);
 
-   e = PAL_InitGlobals();
+   e = PAL_InitGlobals(CP_BIG5, 10);
    if (e != 0)
    {
       TerminateOnError("Could not initialize global data: %d.\n", e);

@@ -162,7 +162,11 @@ typedef struct tagMENUITEM
 typedef struct tagOBJECTDESC
 {
    WORD                        wObjectID;
+#ifdef PAL_UNICODE
+   LPWSTR                      lpDesc;
+#else
    LPSTR                       lpDesc;
+#endif
    struct tagOBJECTDESC       *next;
 } OBJECTDESC, *LPOBJECTDESC;
     
@@ -262,7 +266,7 @@ PALX_FreeObjectDescToml(
    LPTOMLTABLE    lpObjectDesc
 );
 
-LPSTR
+LPCWSTR
 PALX_GetObjectDescToml(
    LPTOMLTABLE    lpObjectDesc,
    WORD           wObjectID
