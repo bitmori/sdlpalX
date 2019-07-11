@@ -564,7 +564,6 @@ typedef struct tagGLOBALVARS
    INVENTORY        rgInventory[MAX_INVENTORY];  // inventory status
 #ifndef PAL_WIN95
    LPOBJECTDESC     lpObjectDesc;
-   LPTOMLTABLE      lpObjectDescToml;
 #endif
    DWORD            dwFrameNum;
 

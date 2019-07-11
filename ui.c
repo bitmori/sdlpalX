@@ -714,6 +714,9 @@ LPOBJECTDESC PAL_LoadObjectDesc(LPCSTR lpszFileName)
    //
    while (fgets(buf, 512, fp) != NULL)
    {
+#  ifdef PAL_UNICODE
+      int wlen;
+#  endif
       p = strchr(buf, '=');
       if (p == NULL)
       {
@@ -722,12 +725,20 @@ LPOBJECTDESC PAL_LoadObjectDesc(LPCSTR lpszFileName)
 
       *p = '\0';
       p++;
+#  ifdef PAL_UNICODE
+      wlen = PAL_MultiByteToWideChar(p, -1, NULL, 0);
+#  endif
 
       pNew = UTIL_calloc(1, sizeof(OBJECTDESC));
 
       sscanf(buf, "%x", &i);
       pNew->wObjectID = i;
-      pNew->lpDesc = strdup(p);
+#  ifdef PAL_UNICODE
+      pNew->lpDesc = (LPWSTR)malloc(wlen * sizeof(WCHAR));
+      PAL_MultiByteToWideChar(p, -1, pNew->lpDesc, wlen);
+#  else
+      pNew->lpDesc = strdup(p);	      pNew->lpDesc = strdup(p);
+#  endif
 
       pNew->next = lpDesc;
       lpDesc = pNew;

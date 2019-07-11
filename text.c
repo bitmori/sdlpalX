@@ -500,7 +500,8 @@ PAL_DrawText(
     urect.x = rect.x;
     urect.y = rect.y;
 #if defined(PAL_WIN95) || defined(PAL_UNICODE)
-    urect.h = 17;
+//    urect.h = 17;
+    urect.h = 16;
 #else
     urect.h = 16;
 #endif

@@ -24,7 +24,14 @@
 
 #if defined(PAL_UNICODE)
 
+#define _FONT_C
+
 #include "fontglyph.h"
+//#include "fontglyph_cn.h"
+#include "fontglyph_tw.h"
+//#include "fontglyph_jp.h"
+//#include "ascii.h"
+
 
 INT
 PAL_InitFont(

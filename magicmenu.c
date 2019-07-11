@@ -99,8 +99,7 @@ WORD PAL_MagicSelectionMenuUpdate(void)
     PAL_CreateBox(PAL_XY(10, 42), 4, 16, 1, FALSE);
     
 #ifndef PAL_WIN95
-    // if (gpGlobals->lpObjectDesc == NULL)
-    if (gpGlobals->lpObjectDescToml == NULL)
+     if (gpGlobals->lpObjectDesc == NULL)
     {
         //
         // Draw the cash amount.
@@ -165,7 +164,6 @@ WORD PAL_MagicSelectionMenuUpdate(void)
                 
                 d = next;
             }
-            free(d);
         }
         
         //

@@ -214,8 +214,8 @@ WORD PAL_ItemSelectMenuUpdate(void)
     // Draw the description of the selected item
     //
 #ifndef PAL_WIN95
-    // if (!g_fNoDesc && gpGlobals->lpObjectDesc != NULL)
-    if (!g_fNoDesc && gpGlobals->lpObjectDescToml != NULL)
+     if (!g_fNoDesc && gpGlobals->lpObjectDesc != NULL)
+//    if (!g_fNoDesc && gpGlobals->lpObjectDescToml != NULL)
     {
 #ifdef PAL_UNICODE
         WCHAR szDesc[512], *next;
@@ -258,7 +258,6 @@ WORD PAL_ItemSelectMenuUpdate(void)
                 
                 d = next;
             }
-            free(d);
         }
     }
 #else
